@@ -1,0 +1,27 @@
+[
+{
+    "id": 1,
+    "level" : "débutant",
+    "value" : 1
+},
+{
+    "id": 2,
+    "level" : "scolaire",
+    "value" : 2
+},
+{
+    "id": 3,
+    "level" : "intermédiaire",
+    "value" : 3
+},
+{
+    "id": 4,
+    "level" : "avancé",
+    "value" : 4
+},
+{
+    "id": 1,
+    "level" : "bilingue",
+    "value" : 5
+}
+]

@@ -1,0 +1,403 @@
+/* Project coded by Morice Ambroise*/
+
+/* :ROOT * BODY H1 H2 */
+/* HEADER */
+/* MAIN * LANDING * Forms */
+/* MODAL TO PROFILE*/
+
+/* Google Fonts */
+
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script&family=Exo&family=Roboto+Slab&display=swap');
+
+:root{
+  --white-color: #F5F5F5;
+  --black-color: #3C3C3C;
+  --green-color: #88B8A5;
+  --dark-green-color: darkgreen;
+  --light-blue-color: #b1dbca;
+  --blue-color: #588CA5;
+  --darker-blue-color: #023465;
+  --red-color: #ff2828;
+}
+
+*{
+  font-family: 'Exo', sans-serif;
+}
+
+body{
+  position: relative;
+  color: var(--black-color);
+  background-color: var(--white-color);
+}
+
+body a {
+  text-decoration: none;
+  color: var(--black-color);
+}
+
+h1,h1 span{
+  font-family: 'Roboto', sans-serif;
+  font-size: 2.5rem;
+}
+
+h2{
+  text-align: center;
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+/* HEADER */
+header{
+  background-color: var(--green-color);
+  border-bottom: 2px solid var(--black-color);
+  color: var(--white-color);
+}
+
+
+.headerBox{
+  display: flex;
+  justify-content: space-between;
+  max-width: 90%;
+  margin: 0 auto;
+}
+
+.titleColor{
+  color: var(--darker-blue-color);
+}
+
+.headerBoxItem{
+flex: 0 1 10%;
+}
+
+.connexionPosition{
+  margin-top: 30%;
+  cursor: pointer;
+}
+
+.headerLink{
+  color:var(--white-color)
+}
+
+.headerLink:hover{
+  color:var(--white-color)
+}
+
+.accroche{
+  font-family: 'Dancing Script', cursive;
+  font-weight: 200;
+  margin-top: 15%;
+}
+
+/* END HEADER*/
+
+/* MAIN*/
+main{
+  display: flex;
+  width: 90%;
+  margin: 0px auto;
+  padding-top: 9%;
+  justify-content:center;
+  gap: 50px;
+  min-height:450px;
+}
+
+.container{
+  width: 80%;
+  margin: 10px auto;
+  display: flex;
+  justify-content: center;
+}
+
+.align-center{
+  text-align: center;
+  margin: 0px;
+}
+
+.align-left{
+  text-align: left;
+
+}
+
+.margin-auto{
+  margin: auto;
+  margin-bottom: 10px;
+}
+.margin-top{
+  margin-top: 20px;
+}
+
+/*Buttons*/
+.btn{
+  padding: 3px 20px;
+  color: var(--green-color);
+  font-size: 20px;
+  font-weight: bold;
+  border: 1px solid var(--black-color);
+  border-radius: 5px;
+  background: transparent;
+  -webkit-transition: 0.2s;
+  -moz-transition: 0.2s;
+  -o-transition: 0.2s;
+  transition: 0.2s;
+}
+
+button:disabled,
+button[disabled],
+button:disabled:hover,
+button[disabled]:hover{
+  filter: blur(2px);
+  cursor: not-allowed;
+}
+
+.btn:hover{
+  background-color: var(--green-color);
+  color: var(--black-color);
+  border-color: var(--green-color) ;
+}
+
+/*Landing*/
+.landingLeftBox{
+  position: relative;
+  flex: 0 1 40% ;
+}
+
+.landingLeftBox img{
+  width: 100%;
+  border-radius: 50%;
+}
+
+.landingRightBox{
+  flex: 0 1 20% ;
+  padding: 5% 10%;
+}
+
+/*signup button*/
+.landingSignupLink{
+  position: absolute;
+  top: 68%;
+  left: 20%;
+  padding: 10px 3px;
+  background-color: var(--white-color);
+  border-radius: 5px;
+  color: var(--black-color);
+  font-size: 20px;
+}
+
+.landingSignupLink:hover{
+  background:transparent;
+  color: var(--white-color);
+  border:1px solid var(--white-color);
+  -webkit-transition: 0.2s;
+  -moz-transition: 0.2s;
+  -o-transition: 0.2s;
+  transition: 0.2s;
+}
+
+/*Landing go button*/
+.landingGoLink{
+  position: absolute;
+  top: 68%;
+  left: 20%;
+  padding: 8px 30px;
+  background-color: var(--white-color);
+  border-radius: 5px;
+  color: var(--black-color);
+  font-size: 25px;
+  font-weight: bold;
+}
+
+.landingGoLink:hover{
+  background:transparent;
+  color: var(--white-color);
+  border:1px solid var(--white-color);
+  -webkit-transition: 0.2s;
+  -moz-transition: 0.2s;
+  -o-transition: 0.2s;
+  transition: 0.2s;
+}
+
+/*forms*/
+.slContainer{
+  width: 40%;
+  margin: auto;
+  min-height: 500px;
+}
+
+.btnAddData{
+  background: none;
+  border: none;
+  font-style: italic;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.btnSeeData{
+  background: none;
+  border: none;
+  font-size: large;
+  cursor: pointer; 
+}
+
+
+.blurry{
+  filter: blur(2px);
+}
+
+.loginFormContainer{
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+  box-shadow:
+  0px 0px 5px var(--light-blue-color) inset,
+  2px 2px 2px var(--light-blue-color),
+  -2px -2px 2px var(--light-blue-color);
+}
+
+.signupFromContainer,
+.registerFormContainer{
+  display: flex;
+  flex-direction: column;
+}
+
+.loginFormContainer form,
+.signupFromContainer form,
+.registerFormContainer form{
+padding: 25px 0px;
+width: 80%;
+margin: auto;
+}
+
+.loginFormContainer .inputBox,
+.signupFromContainer .inputBox,
+.registerFormContainer .inputBox{
+  position: relative;
+  height: 80px;
+}
+
+.loginFormContainer .inputBox input,
+.signupFromContainer .inputBox input,
+.registerFormContainer .inputBox input{
+  width: 100%;
+  font-size: 17px;
+  color: var(--dark-green-color);
+  font-weight: bold;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--black-color);
+  margin-bottom: 30px;
+}
+
+.loginFormContainer .inputBox label,
+.signupFromContainer .inputBox label,
+.registerFormContainer .inputBox label{
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-weight: 600;
+  -webkit-transition: 0.2s ease-in;
+  -moz-transition: 0.2s ease-in;
+  -o-transition: 0.2s ease-in;
+  transition: 0.2s ease-in;
+}
+
+.loginFormContainer .inputBox input:focus~label,
+.loginFormContainer .inputBox input:valid~label,
+.signupFromContainer .inputBox input:focus~label,
+.signupFromContainer .inputBox input:valid~label,
+.registerFormContainer .inputBox input:focus~label,
+.registerFormContainer .inputBox input:valid~label{
+  top:-30px;
+  left: 0;
+  font-style: italic;
+  font-weight: 200;
+}
+
+.loginSignupBtnBox{
+  margin-top: 10px;
+  text-align: center;
+}
+
+.registerBtnBox{
+  display: flex;
+  justify-content: space-between;
+  max-width: 90%;
+  margin: auto;
+}
+
+.languageBox{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+/*display message*/
+.errorMsg{
+  width: 100%;
+  padding: 10px 0px;
+  margin: 5px auto;
+  text-align: center;
+  color: var(--red-color);
+  box-shadow:
+   0px 0px 2px var(--red-color) inset,
+  1px 1px 2px var(--red-color),
+  -1px -1px 1px var(--red-color);
+}
+
+.successMsg{
+  width: 100%;
+  padding: 15px 0px;
+  margin: 5px auto;
+  text-align: center;
+  font-weight: bold;
+  background: var(--light-blue-color);
+  box-shadow:
+   0px 0px 2px var(--green-color) inset,
+  1px 1px 2px var(--green-color),
+  -1px -1px 1px var(--green-color);
+}
+
+/* END MAIN*/
+
+/* MODAL TO PROFILE*/
+
+.modalToProfile{
+  position: absolute;
+  top:0;
+  right: 0;;
+  width:30%;
+  height: 100%;
+  padding:6% 2% 0% 2%;
+  background-color: #88b8a5b5
+}
+.profileContainer{
+  background-color: var(--white-color);
+  padding: 1%;
+  min-height: 95%;
+}
+
+.float-right{
+  float: right;
+}
+
+.modalContainer{
+  width: 90%;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.profileTable{
+  margin-top: 25px;
+  border-collapse: collapse;
+}
+
+.profileTable tr td{
+  padding: 5px;
+  border: 1px solid var(--black-color);
+}
+
+.profileIcons{
+  width: 20px;
+}
+
