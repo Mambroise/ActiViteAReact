@@ -165,6 +165,7 @@ const displayBlock = displayProExpUpdate && (
                 </div>
             </form>
         </div>
+        <hr/>
     </>
 )
 

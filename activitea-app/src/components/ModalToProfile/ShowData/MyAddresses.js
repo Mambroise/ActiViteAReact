@@ -164,6 +164,7 @@ const displayBlock = displayAddressUpdate && (
                 </div>
             </form>
         </div>
+        <hr/>
     </>
 )
 

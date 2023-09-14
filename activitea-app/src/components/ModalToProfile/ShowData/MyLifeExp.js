@@ -137,6 +137,7 @@ const displayBlock = displayLifeExpUpdate && (
                 </div>
             </form>
         </div>
+        <hr/>
     </>
 )
 

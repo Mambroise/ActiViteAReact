@@ -139,6 +139,7 @@ const displayEmailBlock = displayEmailUpdate && (
             </div>
         </form>
     </div>
+    <hr/>
 </>
 
 )

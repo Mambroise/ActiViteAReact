@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react'
+import React, { useState } from 'react'
 import MyEmails from './ShowData/MyEmails';
 import MyPhones from './ShowData/MyPhone';
 import MyAddresses from './ShowData/MyAddresses';
@@ -7,8 +7,7 @@ import MyProExp from './ShowData/MyProExp';
 import MyLanguage from './ShowData/MyLanguage';
 import MyLifeExp from './ShowData/MyLifeExp';
 import MySkill from './ShowData/MySkill';
-import getCurrentUser from '../Login/getCurrentUser';
-import { axiosGet } from '../CommunFunctions/axiosFunction';
+import MyMainData from './ShowData/MyMainData';
 
 function ModalToProfile(props) {
 
@@ -23,45 +22,17 @@ function ModalToProfile(props) {
         skill : false,
     }
 
-    const userData = {
-        id : '',
-        name : '',
-        firstName : '',
-        email : ''
-    }
-
     const [showData, setShowData] =useState(dataTable)
     const { email, phone, address, cursus, proExp, language, lifeExp, skill} = dataTable;
-    const [user, setUser] =useState(userData)
-    const {id, name, firstName, userEmail } = user;
-    const currentUserId = getCurrentUser().id
-
-    //phone numbers display
-    useEffect(()=>{
-        getUser()
-    },[])
-
-    const getUser = () =>{
-        axiosGet('user',currentUserId)
-        .then(response=>{
-            console.log(response.data);
-            setUser(response.data)
-        })
-        .catch(error=>{
-            console.log(error.message);
-        })
-    }
 
     const handleClick =e=>{
-        console.log(e.target.id);
+        setShowData(dataTable)
         setShowData({...showData, [e.target.id] : true })
     }
 
     const handleCloseBtn =()=>{
         setShowData(dataTable)
     }
-
-    
 
     // display email components in tables management
     const emailTable = showData.email && <MyEmails handleCloseBtn={handleCloseBtn} handleCloseWindow={props.handleDisplay}/>
@@ -100,11 +71,7 @@ function ModalToProfile(props) {
         <div className='profileContainer'>
             <button className='btn float-right' onClick={props.handleDisplay}>X</button>
             <h2>Votre profile : </h2>
-            <div>
-                <p>Nom : <strong>{name}</strong></p>
-                <p>Prénom : <strong>{firstName}</strong></p>
-                <p>Email : <strong>{email}</strong></p>
-            </div>
+            <MyMainData/>
             <div className='modalContainer'>
                 <button onClick={handleClick} id='email' value={email} className={`btnSeeData ${emailTitle}`}>Mes Emails :</button>
                 {emailTable}

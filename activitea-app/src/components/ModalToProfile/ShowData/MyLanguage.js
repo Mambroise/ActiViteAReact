@@ -162,6 +162,7 @@ const displayBlock = displayLanguageUpdate && (
                 </div>
             </form>
         </div>
+        <hr/>
     </>
 )
 

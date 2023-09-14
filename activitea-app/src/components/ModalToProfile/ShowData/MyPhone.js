@@ -139,6 +139,7 @@ const displayPhoneBlock = displayPhoneUpdate && (
                 </div>
             </form>
         </div>
+        <hr/>
     </>
 )
 

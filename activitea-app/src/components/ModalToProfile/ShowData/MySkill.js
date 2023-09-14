@@ -137,6 +137,7 @@ const displayBlock = displaySkillUpdate && (
                 </div>
             </form>
         </div>
+        <hr/>
     </>
 )
 

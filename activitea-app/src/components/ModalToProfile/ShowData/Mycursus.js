@@ -156,6 +156,7 @@ const displayBlock = displayCursusUpdate && (
                 </div>
             </form>
         </div>
+        <hr/>
     </>
 )
 
