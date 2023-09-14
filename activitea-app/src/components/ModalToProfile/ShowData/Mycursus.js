@@ -172,8 +172,8 @@ const displayBlock = displayCursusUpdate && (
                         <td>{cursus.school}</td>
                         <td>{cursus.diploma}</td>
                         <td>{cursus.date}</td>
-                        <td><img onClick={handleUpdate} id={cursus.id} className='profileIcons' src={editIcon}/></td>
-                        <td><img onClick={handleDelete} id={cursus.id} className='profileIcons' src={deleteIcon}/></td>
+                        <td><img onClick={handleUpdate} id={cursus.id} className='profileIcons' src={editIcon} alt='icon'/></td>
+                        <td><img onClick={handleDelete} id={cursus.id} className='profileIcons' src={deleteIcon} alt='icon'/></td>
                     </tr>
                 ))}
             </tbody>

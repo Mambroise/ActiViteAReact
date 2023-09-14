@@ -75,7 +75,7 @@ const handleUpdate = e => {
     setProExp({
         id : ToUpdate.id,
         company : ToUpdate.company,
-        title : ToUpdate.diptitleloma,
+        title : ToUpdate.title,
         startDate : ToUpdate.startDate,
         endDate : ToUpdate.endDate,
         userId : currentUserId
@@ -183,8 +183,8 @@ const displayBlock = displayProExpUpdate && (
                         <td>{proExp.title}</td>
                         <td>{proExp.startDate}</td>
                         <td>{proExp.endDate}</td>
-                        <td><img onClick={handleUpdate} id={proExp.id} className='profileIcons' src={editIcon}/></td>
-                        <td><img onClick={handleDelete} id={proExp.id} className='profileIcons' src={deleteIcon}/></td>
+                        <td><img onClick={handleUpdate} id={proExp.id} className='profileIcons' src={editIcon} alt='icon'/></td>
+                        <td><img onClick={handleDelete} id={proExp.id} className='profileIcons' src={deleteIcon} alt='icon'/></td>
                     </tr>
                 ))}
             </tbody>

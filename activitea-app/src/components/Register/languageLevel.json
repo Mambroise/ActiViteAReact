@@ -1,27 +1,27 @@
 [
 {
     "id": 1,
-    "level" : "débutant",
+    "level" : "1 débutant",
     "value" : 1
 },
 {
     "id": 2,
-    "level" : "scolaire",
+    "level" : "2 scolaire",
     "value" : 2
 },
 {
     "id": 3,
-    "level" : "intermédiaire",
+    "level" : "3 intermédiaire",
     "value" : 3
 },
 {
     "id": 4,
-    "level" : "avancé",
+    "level" : "4 avancé",
     "value" : 4
 },
 {
     "id": 1,
-    "level" : "bilingue",
+    "level" : "5 bilingue",
     "value" : 5
 }
 ]

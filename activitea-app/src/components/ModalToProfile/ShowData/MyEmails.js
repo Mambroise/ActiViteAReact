@@ -153,8 +153,8 @@ const displayEmailBlock = displayEmailUpdate && (
                 {emailTable.map((email)=>(
                     <tr key={email.id}>
                         <td>{email.proEmail}</td>
-                        <td><img onClick={handleUpdate} id={email.id} className='profileIcons' src={editIcon}/></td>
-                        <td><img onClick={handleDelete} id={email.id} className='profileIcons' src={deleteIcon}/></td>
+                        <td><img onClick={handleUpdate} id={email.id} className='profileIcons' src={editIcon} alt='icon'/></td>
+                        <td><img onClick={handleDelete} id={email.id} className='profileIcons' src={deleteIcon} alt='icon'/></td>
                     </tr>
                 ))}
             </tbody>

@@ -28,7 +28,7 @@ const handleChange = e =>{
 
 const handleSubmit =e=>{
     e.preventDefault();
-    axiosPost("proskill", proSkill)
+    axiosPost("skill", proSkill)
     .then((response) => {
         setError(null)
         setSuccess(response.data);

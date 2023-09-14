@@ -7,37 +7,37 @@ import deleteIcon from '../../../image/deleteIcon.png'
 import { useNavigate } from 'react-router-dom'
 
 
-function MyPhones(props) {
+function MySkill(props) {
 
-    const proPhoneData = {
+    const skillData = {
         id : '',
-        phone : '',
+        skill : '',
         userId : ''
        }
 
 
 const currentUserId = getCurrentUser().id;
-const [ phoneTable, setPhoneTable ] = useState([]);
-const [ displayPhoneUpdate, setDisplayPhoneUpdate ] = useState(false);
+const [ skillTable, setSkillTable ] = useState([]);
+const [ displaySkillUpdate, setDisplaySkillUpdate ] = useState(false);
 const [ error,setError ] = useState(null);
 const [ success,setSuccess ] = useState(null);
 const navigate = useNavigate()
 //udapte declaration part
-const [ phone,setPhone ] = useState(proPhoneData);
-const { proPhone } = phone;
+const [ proSkill,setProSkill ] = useState(skillData);
+const { skill } = proSkill;
 const box = useRef()
 
 
 
 //phone numbers display
 useEffect(()=>{
- getPhones()
+    getsKills()
 },[])
 
-const getPhones = () =>{
-    axiosGet('prophone',currentUserId)
+const getsKills = () =>{
+    axiosGet('skill',currentUserId)
     .then(response=>{
-        setPhoneTable(response.data)
+        setSkillTable(response.data)
     })
     .catch(error=>{
         setError(error.message)
@@ -47,11 +47,11 @@ const getPhones = () =>{
 //phones delete management
 const handleDelete = e => {
 
-    const userConfirmed = window.confirm("Etes vous sur de vouloir effacer ce numéro ?");
+    const userConfirmed = window.confirm("Etes-vous sur de vouloir effacer cette compétence ?");
     if (userConfirmed) {
-        axiosDelete('prophone', e.target.id)
+        axiosDelete('skill', e.target.id)
         .then(response=>{
-            getPhones()
+            getsKills()
             setError(null)
             setSuccess(response.data)
         })
@@ -67,39 +67,37 @@ const handleDelete = e => {
 const handleUpdate = e => {
     setSuccess(null)
     const phoneIdToUpdate = e.target.id;
-    const phoneToUpdate = phoneTable.find((phone) => phone.id == phoneIdToUpdate);
-    console.log(phoneToUpdate);
-    setPhone({
+    const phoneToUpdate = skillTable.find((skill) => skill.id == phoneIdToUpdate);
+
+    setProSkill({
         id : phoneToUpdate.id,
-        phone : phoneToUpdate.phone,
+        skill : phoneToUpdate.skill,
         userId : currentUserId
     })
-    setDisplayPhoneUpdate(true);
+    setDisplaySkillUpdate(true);
 }
 
 //handle phone modification
 const handleChange = e =>{
-    setPhone({...phone,
-        phone : e.target.value,
+    setProSkill({...proSkill,
+        skill : e.target.value,
         userId : currentUserId  
     })
-    console.log(phone);
+
 }
-console.log(phone);
 
 //submit update email
 const handleSubmit = e => {
     e.preventDefault();
-    console.log(phone);
-    axiosPut("prophone",phone.id, phone)
+    axiosPut("skill",proSkill.id, proSkill)
     .then((response) => {
         setError(null)
         setSuccess(response.data);
-        setPhone(proPhoneData);
-        getPhones();
+        setProSkill(skillData);
+        getsKills();
         box.current.classList.add('blurry')
         setTimeout(() => {
-            setDisplayPhoneUpdate(false);
+            setDisplaySkillUpdate(false);
         }, 1500);
     })
     .catch((error) => {
@@ -109,7 +107,7 @@ const handleSubmit = e => {
 
 //go to add an email page
 const goToAddPage =()=>{
-    navigate('/register1')
+    navigate('/register2')
     props.handleCloseWindow()
 }
 
@@ -120,19 +118,19 @@ const successMsg = success !== null &&<div className='successMsg '>{success}</di
 const errorMsg = error !== null && <div className='errorMsg'>{error}</div>
 
 // submit button management
-const  btn =  proPhone !== '' ? <button type='submit' className='btn'>Go!</button> :
+const  btn =  skill !== '' ? <button type='submit' className='btn'>Go!</button> :
 <button className='btn' disabled>Go!</button>
 
 //display phone component for update
-const displayPhoneBlock = displayPhoneUpdate && (   
+const displayBlock = displaySkillUpdate && (   
     <>
         <div className='registerFormContainer margin-top'>
             <form onSubmit={handleSubmit}>
                 <div ref={box} className='inputBox'>
                     <input onChange={handleChange}
-                     type='number' id='phone' value={phone.phone}
-                      autoComplete='off'  required/>
-                    <label htmlFor='phone'>Téléphone</label>
+                    type='text' id='content' value={skill}
+                    autoComplete='off' required/>
+                    <label htmlFor='content'>Expérience (une ligne)</label>
                 </div>
                 <div className='registerBtnBox'>
                     {btn}
@@ -147,22 +145,22 @@ const displayPhoneBlock = displayPhoneUpdate && (
         {successMsg}
         {errorMsg}
         <button  onClick={props.handleCloseBtn} className='btnAddData float-right'>Fermer</button>
-        {ifNoData(phoneTable)}
+        {ifNoData(skillTable)}
         <table className='profileTable'>
             <tbody>
-                {phoneTable.map((phone)=>(
-                    <tr key={phone.id}>
-                        <td>{phone.phone}</td>
-                        <td><img onClick={handleUpdate} id={phone.id} className='profileIcons' src={editIcon} alt='icon'/></td>
-                        <td><img onClick={handleDelete} id={phone.id} className='profileIcons' src={deleteIcon} alt='icon'/></td>
+                {skillTable.map((skill)=>(
+                    <tr key={skill.id}>
+                        <td>{skill.skill}</td>
+                        <td><img onClick={handleUpdate} id={skill.id} className='profileIcons' src={editIcon} alt='icon'/></td>
+                        <td><img onClick={handleDelete} id={skill.id} className='profileIcons' src={deleteIcon} alt='icon'/></td>
                     </tr>
                 ))}
             </tbody>
         </table>
-        <button onClick={goToAddPage} className='btnAddData float-right'>Ajouter un numéro</button>
-        {displayPhoneBlock}
+        <button onClick={goToAddPage} className='btnAddData float-right'>Ajouter une compétence</button>
+        {displayBlock}
     </div>
   )
 }
 
-export default MyPhones
+export default MySkill

@@ -74,7 +74,7 @@ const errorMsg = error !== null && <div className='errorMsg'>{error}</div>
                     <select id='language' value={language} onChange={handleChange} disabled={disable}>
                         <option value="">Sélectionnez une langue</option>
                         {languages.map((lang) => (
-                        <option key={language.id} value={lang.code}>
+                        <option key={language.id} value={lang.language}>
                         {lang.language}
                         </option>
                         ))}

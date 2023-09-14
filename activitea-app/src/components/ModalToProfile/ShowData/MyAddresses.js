@@ -181,8 +181,8 @@ const displayBlock = displayAddressUpdate && (
                         <td>{address.street}</td>
                         <td>{address.zipCode}</td>
                         <td>{address.city}</td>
-                        <td><img onClick={handleUpdate} id={address.id} className='profileIcons' src={editIcon}/></td>
-                        <td><img onClick={handleDelete} id={address.id} className='profileIcons' src={deleteIcon}/></td>
+                        <td><img onClick={handleUpdate} id={address.id} className='profileIcons' src={editIcon} alt='icon'/></td>
+                        <td><img onClick={handleDelete} id={address.id} className='profileIcons' src={deleteIcon} alt='icon'/></td>
                     </tr>
                 ))}
             </tbody>
