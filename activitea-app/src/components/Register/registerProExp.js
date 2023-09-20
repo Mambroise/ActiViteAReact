@@ -1,5 +1,4 @@
 import React, {useState, useRef} from 'react'
-import { useNavigate } from 'react-router-dom'
 import { axiosPost } from '../CommunFunctions/axiosFunction'
 import getCurrentUser from '../Login/getCurrentUser'
 
@@ -20,7 +19,6 @@ function RegisterProExp() {
     const { company, title, startDate, endDate } = proExp;
     const currentUser = getCurrentUser();
     const box = useRef()
-    const navigate = useNavigate()
     
     
     const handleChange = e =>{
@@ -48,10 +46,6 @@ function RegisterProExp() {
         setSuccess(null)
         setError(null)
         setDisable(false)
-    }
-
-    const goToPage2 =()=>{
-        navigate('/register2')
     }
     
     
@@ -99,7 +93,6 @@ function RegisterProExp() {
         <div className='registerBtnBox'>
             {btn}
             <button className='btnAddData' onClick={handleClick}>Ajouter une expérience</button>
-            <button className='btn' onClick={goToPage2}>Page suivante</button>
         </div>
     </form>
 </div>

@@ -27,6 +27,7 @@ const navigate = useNavigate();
 
 const handleChange = e => {
     setSignup({...signup, [e.target.id] : e.target.value});
+    
 } 
 
 const handleConfPassword = e => {

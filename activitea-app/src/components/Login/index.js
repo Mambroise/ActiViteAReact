@@ -29,6 +29,7 @@ function Login() {
             localStorage.setItem("currentUser", JSON.stringify(response.data));
             setTimeout(() => {
                 navigate("/");
+                window.location.reload();
             }, 2000);
             })
             .catch((error) => {

@@ -9,6 +9,8 @@ import RegisterPart1 from '../Register/index1';
 import RegisterPart2 from '../Register/index2';
 import ModalToProfile from '../ModalToProfile';
 import { useState } from 'react';
+import WorkAd from '../Coverletter/WorkAdd';
+import GeneratedCoverLetter from '../Coverletter/GeneratedCoverLetter';
 
 function App() {
 
@@ -29,6 +31,8 @@ const displayModal = display && <ModalToProfile handleDisplay={handleDisplay}/>
           <Route path='/signup' element={<Signup/>}/>
           <Route path='/register1' element={<RegisterPart1/>}/>
           <Route path='/register2' element={<RegisterPart2/>}/>
+          <Route path='/addworkad' element={<WorkAd/>}/>
+          <Route path='/generatecoverletter' element={<GeneratedCoverLetter/>}/>
         </Routes>
         {displayModal}
       </Router>

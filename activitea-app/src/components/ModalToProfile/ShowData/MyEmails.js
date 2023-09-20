@@ -74,7 +74,6 @@ const handleUpdate = e => {
         proEmail : emailToUpdate.proEmail,
         userId : currentUserId
     })
-    console.log(email);
     setDisplayEmailUpdate(true);
 }
 

@@ -4,6 +4,7 @@
 /* HEADER */
 /* MAIN * LANDING * Forms */
 /* MODAL TO PROFILE*/
+/* ANIMATIONS */
 
 /* Google Fonts */
 
@@ -115,7 +116,16 @@ main{
 
 .align-left{
   text-align: left;
+}
 
+.flex-between{
+  display: flex;
+  justify-content: space-between;
+}
+
+.flex-center{
+  display: flex;
+  justify-content: center;
 }
 
 .margin-auto{
@@ -196,7 +206,7 @@ button[disabled]:hover{
 /*Landing go button*/
 .landingGoLink{
   position: absolute;
-  top: 68%;
+  top: 73%;
   left: 20%;
   padding: 8px 30px;
   background-color: var(--white-color);
@@ -439,4 +449,52 @@ margin: auto;
 .updateUsertBox label{
   font-weight: 600;
 }
+/* END MODAL TO PROFILE*/
 
+/* COVERLETTER PAGES */
+.workAdInput{
+  margin: auto;
+  width: 90%;
+  min-height: 300px;
+}
+
+.coverletterInput{
+  margin: auto;
+  width: 90%;
+  min-height: 500px;
+}
+
+.loader{
+  margin: 40px auto 20px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border-top: 5px solid var(--red-color);
+  border-left: 5px solid var(--red-color);
+  border-right: 5px solid var(--red-color);
+  -webkit-animation: spin 1s linear infinite;
+  animation: spin 1s linear infinite;
+}
+
+
+/*ANIMATIONS*/
+
+@-webkit-keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}

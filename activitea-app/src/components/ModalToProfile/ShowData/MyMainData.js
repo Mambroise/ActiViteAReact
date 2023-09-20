@@ -18,7 +18,6 @@ function MyMainData() {
         ]
     }
     const passwordData = {
-        id : '',
         oldPassword : '',
         newPassword : ''
     }
@@ -73,7 +72,12 @@ const handleUpdate = () =>{
 const handleChange = e =>{
     setUser({...user,
         [e.target.id] : e.target.value,
-        id : currentUserId  
+        id : currentUserId, 
+        role :[
+            {
+                id: 1,
+            }
+        ]  
     })
 }
 
@@ -103,11 +107,29 @@ const handleSubmitUser = e => {
 
 // Update the password 
 const handleChangePassword = e => {
+    console.log('coucou');
+    setChangePassword( {[e.target.id] : e.target.value})
+}
 
+const handleChangeConfPassword = e => {
+    setConfPassword(e.target.value)
 }
 
 const handleSubmitPassword = e => {
-
+    e.preventDefault();
+    
+    if (changePassword.newPassword === confPassword) {
+        axiosPut("updatepassword",currentUserId, changePassword)
+        .then(response => {
+            console.log(response.data);
+            setError(null)
+            setSuccess(response.data)
+        })
+        .catch(error =>{
+            console.log(error.message);
+            setError(error.message)
+        })
+    }
 }
 
 //success message display
@@ -134,11 +156,11 @@ const displayBlock = displayPasswordUpdate && (
                     <label htmlFor='oldPassword'>Ancien mot de passe</label>
                 </div>
                 <div className='updatePasswordtBox'>
-                    <input onChange={handleChangePassword} type='password' id='newpassword' value={newPassword} autoComplete='off' required/>
-                    <label htmlFor='newpassword'>Nouveau mot de passe</label>
+                    <input onChange={handleChangePassword} type='password' id='newPassword' value={newPassword} autoComplete='off' required/>
+                    <label htmlFor='newPassword'>Nouveau mot de passe</label>
                 </div>
                 <div className='updatePasswordtBox'>
-                    <input onChange={handleChangePassword} type='password' id='confirmPassword' value={confPassword} autoComplete='off' required/>
+                    <input onChange={handleChangeConfPassword} type='password' id='confirmPassword' value={confPassword} autoComplete='off' required/>
                     <label htmlFor='confirmPassword'>Confirmer Mot de passe</label>
                 </div>
                 <div className='loginSignupBtnBox'>
@@ -173,10 +195,11 @@ const displayBlock = displayPasswordUpdate && (
                     <input onChange={handleChange} type='password' id='password' value={password} autoComplete='off' disabled required/>
                 </div>
                 <div className='loginSignupBtnBox'>
-                    <button onClick={handleUpdatePassword} className='btnAddData float-right'>Modifier mon mot de passe</button>
                     {btn}
                 </div>
             </form>
+                    <button onClick={handleUpdatePassword} className='btnAddData '>Je modifie mon mot de passe</button>
+            <hr/>
         {displayBlock}
     </div>
   )
