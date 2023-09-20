@@ -100,6 +100,12 @@ main{
   justify-content:center;
   gap: 50px;
   min-height:450px;
+  background-image: url(image/aiBrain.png);
+  background-size: cover;
+}
+
+.landinBg{
+  width: 100%;
 }
 
 .container{
@@ -168,15 +174,12 @@ button[disabled]:hover{
 /*Landing*/
 .landingLeftBox{
   position: relative;
-  flex: 0 1 40% ;
+  flex: 0 1 50% ;
 }
 
-.landingLeftBox img{
-  width: 100%;
-  border-radius: 50%;
-}
 
 .landingRightBox{
+  color: var(--white-color);
   flex: 0 1 20% ;
   padding: 5% 10%;
 }
@@ -184,8 +187,8 @@ button[disabled]:hover{
 /*signup button*/
 .landingSignupLink{
   position: absolute;
-  top: 68%;
-  left: 20%;
+  top: 45%;
+  left: 15%;
   padding: 10px 3px;
   background-color: var(--white-color);
   border-radius: 5px;
@@ -206,8 +209,8 @@ button[disabled]:hover{
 /*Landing go button*/
 .landingGoLink{
   position: absolute;
-  top: 73%;
-  left: 20%;
+  top: 50%;
+  left: 5%;
   padding: 8px 30px;
   background-color: var(--white-color);
   border-radius: 5px;

@@ -1,11 +1,19 @@
 
 import React, { useState,useEffect } from 'react'
-import { axiosPost, axiosGet, axiosGpt } from '../../CommunFunctions/axiosFunction';
+import { axiosPost, axiosGet, axiosGpt, axiosPut } from '../../CommunFunctions/axiosFunction';
 import getCurrentUser from '../../Login/getCurrentUser'
 import { useNavigate } from 'react-router-dom';
 
 function GeneratedCoverLetter() {
 
+    const coverLetterData = {
+        id : '',
+        work_ad : '',
+        letter : '',
+        userId : ''
+    }
+
+    const [ coverletter, setCoverLetter ] = useState(coverLetterData)
     const [ workAd, setWorkAd ] = useState('')
     const [ phone, setPhone ] = useState([])
     const [ cursus, setCursus ] = useState([])
@@ -19,7 +27,7 @@ function GeneratedCoverLetter() {
     const [ gptResponse, setGptResponse ] = useState('');
     const currentUser = getCurrentUser();
     const navigate = useNavigate()
-    
+
     //Redirection if not logged in
     useEffect(() => {
       currentUser === null && navigate("/")
@@ -41,6 +49,7 @@ function GeneratedCoverLetter() {
       axiosGet("last-coverletter", currentUser.id)
       .then(response=>{
         setWorkAd(response.data.work_ad)
+        setCoverLetter({id : response.data.id})
       })
       .catch(error=>{
         console.log(error.message);
@@ -99,14 +108,16 @@ function GeneratedCoverLetter() {
       .catch(error=>{
         console.log(error.message);
       })
-      
-      //Here we build a complete prompt made of the user data
-      const prompt = "En réponse à la recherche de poste de l'annonce de travail qui suit: " +
-      workAd+ " peux tu écrire une lettre de motivation en moins de  350 mots strictement, "
-      +"en utilisant les données de ce candidat que tu trouves les plus pertinentes et utiles."+
-      " voici les données du candidat : nom, prénom :" +currentUser.fullname + ", email: " +currentUser.email+
-      ", cursus scolaire: "+ 
-      cursus.map(cursus=>(
+    
+      setTimeout(() => {
+          
+          //Here we build a complete prompt made of the user data
+          const prompt = "En réponse à la recherche de poste de l'annonce de travail qui suit: " +
+          workAd+ " peux tu écrire une lettre de motivation en moins de  350 mots strictement, "
+          +"en utilisant les données de ce candidat que tu trouves les plus pertinentes et utiles."+
+          " voici les données du candidat : nom, prénom :" +currentUser.fullname + ", email: " +currentUser.email+
+          ", cursus scolaire: "+ 
+          cursus.map(cursus=>(
           "école: "+cursus.school + ", "+
           "diplome: "+cursus.diploma + "; "))+
           " garde ici les cursus les plus pertinents en rapport à l'annonce."+
@@ -132,17 +143,28 @@ function GeneratedCoverLetter() {
           axiosGpt({ prompt: prompt })
           .then(response=>{
             setOutputText(response.data)
-            console.log(response.data);
           })
           .catch(error=>{
             console.error('Error:', error);
             console.log(error.message);
           })
-        }
+        }, 4000);
+      }
 
-    const handleSubmit = e => {
-        e.preventDefault()
-        axiosPost("coverletter", workAd)
+        //update the coverletter text before saving
+      const handleChange = e => {
+          setGptResponse(e.target.value)
+      }
+        
+        const handleSubmit = e => {
+          e.preventDefault()
+          setCoverLetter({...coverletter,
+            work_ad : workAd,
+            letter : gptResponse,
+            userId : currentUser.id
+          })
+
+        axiosPut("coverletter",coverletter.id, coverletter)
         .then(response => {
             setError(null)
             setSuccess(response.data)
@@ -150,10 +172,6 @@ function GeneratedCoverLetter() {
         .catch(error => {
             console.log(error);
         })
-    }
-//update the coverletter text before saving
-    const handleChange = e => {
-        setGptResponse(e.target.value)
     }
 
     //success message display

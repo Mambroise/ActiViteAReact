@@ -9,16 +9,15 @@ function Landing() {
 const currentUser = getCurrentUser()
 
 // sign up management
-const signUpButton = currentUser ? <Link className='landingGoLink' to='/register1'><i>Mes Données!</i></Link> :
+const signUpButton = currentUser ? <Link className='landingGoLink' to='/register1'><i> Ajouter des Données!</i></Link> :
 <Link className='landingSignupLink' to='/signup'><i>Je m'inscris</i></Link>
 
 // sign up management
 const gptButton = currentUser && <Link  className='btn' to='/addworkad'>GPT</Link>
 
   return (
-    <main>
+    <main className='landingBg'>
       <div className='landingLeftBox'>
-        <img src={brain} alt='cerveau'/>
         {signUpButton}
       </div>
       <div className='landingRightBox'>
