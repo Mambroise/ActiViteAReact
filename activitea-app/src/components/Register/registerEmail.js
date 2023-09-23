@@ -1,6 +1,7 @@
-import React, { useState,useRef } from 'react'
+import React, { useState,useRef,useEffect } from 'react'
 import { axiosPost } from '../CommunFunctions/axiosFunction'
 import getCurrentUser from '../Login/getCurrentUser'
+import { emailValidation } from '../Validation'
 
 function RegisterEmailPro() {
 
@@ -12,19 +13,36 @@ function RegisterEmailPro() {
 const [ email,setEmail ] = useState(proEmailData)
 const [ error,setError ] = useState(null)
 const [ success,setSuccess ] = useState(null)
+const [ validation,setValidation ] = useState(false)
 const [ disable,setDisable ] = useState(false)
 const { proEmail } = email;
 const currentUser = getCurrentUser();
-const box = useRef()
+const box = useRef() 
 
+//Validation, checking email format
+useEffect(() => {
+    if (email.proEmail.length > 0) {
+        if (emailValidation(email.proEmail)) {
+            setError(null)
+            setValidation(true)
+        } else if (!emailValidation(email.proEmail)){
+            setError("Merci de respecter le format des emails")
+            setValidation(false)
+        }
+    } else if(email.proEmail === ''){
+        setError(null)
+        setValidation(false)
+    }
+}, [email])
 
-
+//set email when the user is typing
 const handleChange = e =>{
     setEmail({
         proEmail : e.target.value,
         userId : currentUser.id  
     })
 }
+
 // submit create email
 const handleSubmit =e=>{
     e.preventDefault();
@@ -42,6 +60,7 @@ const handleSubmit =e=>{
     });
 }
 
+//form submission
 const handleClick =() =>{
     box.current.classList.remove('blurry')
     setSuccess(null)
@@ -50,9 +69,9 @@ const handleClick =() =>{
 }
 
     
-    // submit button management
-  const  btn =  proEmail !== '' ? <button type='submit' className='btn'>Go!</button> :
-    <button className='btn' disabled>Go!</button>
+// submit button management
+const  btn =  validation ? <button type='submit' className='btn'>Go!</button> :
+<button className='btn' disabled>Go!</button>
 
 
 //success message display

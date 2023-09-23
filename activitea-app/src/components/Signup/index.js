@@ -1,6 +1,8 @@
-import React,{ useState } from 'react'
+import React,{ useState,useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { axiosPost } from '../CommunFunctions/axiosFunction'
+import { emailValidation, passwordValidation } from '../Validation';
+
 
 function Signup() {
 
@@ -17,53 +19,86 @@ function Signup() {
         ]
     }
  
+    const [signup,setSignup] = useState(data);
+    const [confPassword,setConfPassword] = useState({confPassword : ''})
+    const [success,setSuccess] =useState(null)
+    const [error,setError] =useState(null)
+    const [ emailValid,setEmailValid ] = useState(false)
+    const [ passwordValid,setPasswordValid ] = useState(false)
+    const { firstName, name, email, password } = signup;
+    const navigate = useNavigate();
 
-const [signup,setSignup] = useState(data);
-const [confPassword,setConfPassword] = useState({confPassword : ''})
-const [success,setSuccess] =useState('')
-const [error,setError] =useState('')
-const { firstName, name, email, password } = signup;
-const navigate = useNavigate();
+    //Validation, checking email format
+    useEffect(() => {
+        if (email.length > 0) {
+            if (emailValidation(email)) {
+                setError(null)
+                setEmailValid(true)
+            } else if (!emailValidation(email)){
+                setError("Merci de respecter le format des emails")
+                setEmailValid(false)
+            }
+        } else if(email === ''){
+            setError(null)
+            setEmailValid(false)
+        }
+    }, [email])
 
-const handleChange = e => {
-    setSignup({...signup, [e.target.id] : e.target.value});
-    
-} 
+    //Validation, checking password format
+    useEffect(() => {
+        if (password.length > 0) {
+            const result = passwordValidation(password)
+            if (result.status) {
+                setError(null)
+                setPasswordValid(true)
+            } else if (!result.status){
+                setError(result.message)
+                setPasswordValid(false)
+            }
+        } else if(password === ''){
+            setError(null)
+            setPasswordValid(false)
+        }
+    }, [password])
 
-const handleConfPassword = e => {
-    setConfPassword(e.target.value);  
-}
+    const handleChange = e => {
+        setSignup({...signup, [e.target.id] : e.target.value});
+    } 
 
-//envoie des données vers springBoot
-const handleSubmit =e=> {
-    e.preventDefault()
-    axiosPost("register", signup)
-    .then(response =>{
-        setSignup(data)
-        setError('')
-        setSuccess("Bravo! vous avez bien été enrergistré(e)")
-        setTimeout(() => {
-            navigate("/login")
-        }, 2000);
-    })
-    .catch(error=>{
-        setError(error.message)
-        setSignup(data)
-    })
-}
+    const handleConfPassword = e => {
+        setConfPassword(e.target.value);  
+    }
 
-// Affichage du bouton valider 
-const btn = firstName === '' || name === '' || email === '' ||
- password === '' || password !== confPassword ? <button className='btn' disabled>Go!</button>
- : <button className='btn' type='submit'>Go!</button>
+    //envoie des données vers springBoot
+    const handleSubmit =e=> {
+        e.preventDefault()
+        axiosPost("register", signup)
+        .then(response =>{
+            setSignup(data)
+            setError(null)
+            setSuccess("Bravo! vous avez bien été enrergistré(e)")
+            setTimeout(() => {
+                navigate("/login")
+            }, 2000);
+        })
+        .catch(error=>{
+            setError(error.message)
+            setSignup(data)
+        })
+    }
 
- //display success message
- const successMsg = success !== '' && <div className='successMsg'>{success}</div>
+    // Affichage du bouton valider 
+    const btn = firstName === '' || name === '' || !emailValid ||
+    !passwordValid || password !== confPassword ? <button className='btn' disabled>Go!</button>
+    : <button className='btn' type='submit'>Go!</button>
 
-//display error message
-const errorMsg = error !== '' && <div className='errorMsg'>{error}</div>
+    //display success message
+    const successMsg = success !== null && <div className='successMsg'>{success}</div>
 
-  return (
+    //display error message
+    const errorMsg = error !== null && <div className='errorMsg'>{error}</div>
+
+    return (
     <div className='slContainer'>
         <h2>Inscription</h2>
         {errorMsg}

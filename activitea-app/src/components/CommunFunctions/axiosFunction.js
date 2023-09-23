@@ -25,8 +25,4 @@ async function axiosGpt(prompt) {
 
 }
 
-export {axiosPost}
-export {axiosGet}
-export {axiosPut}
-export {axiosDelete}
-export {axiosGpt}
+export {axiosPost,axiosGet,axiosPut,axiosDelete,axiosGpt}

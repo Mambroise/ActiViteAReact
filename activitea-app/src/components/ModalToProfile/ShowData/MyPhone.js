@@ -5,6 +5,7 @@ import ifNoData from '../../CommunFunctions/ifNoDataFunction'
 import editIcon from '../../../image/editIcon.png'
 import deleteIcon from '../../../image/deleteIcon.png'
 import { useNavigate } from 'react-router-dom'
+import { phoneValidation } from '../../Validation'
 
 
 function MyPhones(props) {
@@ -21,6 +22,7 @@ const [ phoneTable, setPhoneTable ] = useState([]);
 const [ displayPhoneUpdate, setDisplayPhoneUpdate ] = useState(false);
 const [ error,setError ] = useState(null);
 const [ success,setSuccess ] = useState(null);
+const [ validation,setValidation ] = useState(false)
 const navigate = useNavigate()
 //udapte declaration part
 const [ phone,setPhone ] = useState(proPhoneData);
@@ -83,14 +85,28 @@ const handleChange = e =>{
         phone : e.target.value,
         userId : currentUserId  
     })
-    console.log(phone);
 }
-console.log(phone);
+
+  //Validation, checking email format
+  useEffect(() => {
+    console.log(phone.phone.length);
+    if (phone.phone.length > 0) {
+        if (phoneValidation(phone.phone)) {
+            setError(null)
+            setValidation(true)
+        } else if (!phoneValidation(phone.phone)){
+            setError("Le format du numéro n'est pas valide")
+            setValidation(false)
+        }
+    } else if(phone.phone === ''){
+        setError(null)
+        setValidation(false)
+    }
+}, [phone.phone])
 
 //submit update email
 const handleSubmit = e => {
     e.preventDefault();
-    console.log(phone);
     axiosPut("prophone",phone.id, phone)
     .then((response) => {
         setError(null)
@@ -120,7 +136,7 @@ const successMsg = success !== null &&<div className='successMsg '>{success}</di
 const errorMsg = error !== null && <div className='errorMsg'>{error}</div>
 
 // submit button management
-const  btn =  proPhone !== '' ? <button type='submit' className='btn'>Go!</button> :
+const  btn =  validation ? <button type='submit' className='btn'>Go!</button> :
 <button className='btn' disabled>Go!</button>
 
 //display phone component for update

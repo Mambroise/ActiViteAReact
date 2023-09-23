@@ -5,6 +5,7 @@ import ifNoData from '../../CommunFunctions/ifNoDataFunction'
 import editIcon from '../../../image/editIcon.png'
 import deleteIcon from '../../../image/deleteIcon.png'
 import { useNavigate } from 'react-router-dom'
+import { emailValidation } from '../../Validation'
 
 
 
@@ -19,6 +20,7 @@ function MyEmails(props) {
 const currentUserId = getCurrentUser().id;
 const [ emailTable, setEmailTable ] = useState([]);
 const [ displayEmailUpdate, setDisplayEmailUpdate ] = useState(false);
+const [ validation,setValidation ] = useState(false)
 const [ error,setError ] = useState(null);
 const [ success,setSuccess ] = useState(null);
 const navigate = useNavigate()
@@ -85,6 +87,22 @@ const handleChange = e =>{
     })
 }
 
+//Validation, checking email format
+useEffect(() => {
+    if (email.proEmail.length > 0) {
+        if (emailValidation(email.proEmail)) {
+            setError(null)
+            setValidation(true)
+        } else if (!emailValidation(email.proEmail)){
+            setError("Merci de respecter le format des emails")
+            setValidation(false)
+        }
+    } else if(email.proEmail === ''){
+        setError(null)
+        setValidation(false)
+    }
+}, [email])
+
 
 //submit update email
 const handleSubmit = e => {
@@ -119,7 +137,7 @@ const errorMsg = error !== null && <div className='errorMsg'>{error}</div>
 
 
 // submit button management
-const  btn =  proEmail !== '' ? <button type='submit' className='btn'>Go!</button> :
+const  btn =  validation ? <button type='submit' className='btn'>Go!</button> :
 <button className='btn' disabled>Go!</button>
 
 //display email component for update

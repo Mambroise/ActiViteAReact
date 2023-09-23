@@ -1,6 +1,5 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import brain from '../../image/AIBraint.jpg'
 import getCurrentUser from '../Login/getCurrentUser'
 
 function Landing() {
@@ -9,11 +8,11 @@ function Landing() {
 const currentUser = getCurrentUser()
 
 // sign up management
-const signUpButton = currentUser ? <Link className='landingGoLink' to='/register1'><i> Ajouter des Données!</i></Link> :
+const signUpButton = currentUser ? <Link className='landingGoLink' to='/register1'><i>Ajouter des Données!</i></Link> :
 <Link className='landingSignupLink' to='/signup'><i>Je m'inscris</i></Link>
 
 // sign up management
-const gptButton = currentUser && <Link  className='btn' to='/addworkad'>GPT</Link>
+const gptButton = currentUser && <Link  className='landingGptLink' to='/addworkad'>GPT</Link>
 
   return (
     <main className='landingBg'>

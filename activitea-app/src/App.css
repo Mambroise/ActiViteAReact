@@ -86,6 +86,7 @@ flex: 0 1 10%;
 .accroche{
   font-family: 'Dancing Script', cursive;
   font-weight: 200;
+  font-size: 30px;
   margin-top: 15%;
 }
 
@@ -99,7 +100,7 @@ main{
   padding-top: 9%;
   justify-content:center;
   gap: 50px;
-  min-height:450px;
+  min-height:650px;
   background-image: url(image/aiBrain.png);
   background-size: cover;
 }
@@ -138,6 +139,7 @@ main{
   margin: auto;
   margin-bottom: 10px;
 }
+
 .margin-top{
   margin-top: 20px;
 }
@@ -179,15 +181,20 @@ button[disabled]:hover{
 
 
 .landingRightBox{
+  text-align: end;
   color: var(--white-color);
-  flex: 0 1 20% ;
-  padding: 5% 10%;
+  flex: 0 1 25% ;
+  padding: 7% 2% 5% 15%;
+}
+
+.landingRightBox h1{
+  font-size: 50px;
 }
 
 /*signup button*/
 .landingSignupLink{
   position: absolute;
-  top: 45%;
+  top: 35%;
   left: 15%;
   padding: 10px 3px;
   background-color: var(--white-color);
@@ -209,7 +216,7 @@ button[disabled]:hover{
 /*Landing go button*/
 .landingGoLink{
   position: absolute;
-  top: 50%;
+  top: 30%;
   left: 5%;
   padding: 8px 30px;
   background-color: var(--white-color);
@@ -220,6 +227,26 @@ button[disabled]:hover{
 }
 
 .landingGoLink:hover{
+  background:transparent;
+  color: var(--white-color);
+  border:1px solid var(--white-color);
+  -webkit-transition: 0.2s;
+  -moz-transition: 0.2s;
+  -o-transition: 0.2s;
+  transition: 0.2s;
+}
+
+/*Landing Gpt button*/
+.landingGptLink{
+  padding: 8px 30px;
+  background-color: var(--white-color);
+  border-radius: 5px;
+  color: var(--black-color);
+  font-size: 25px;
+  font-weight: bold;
+}
+
+.landingGptLink:hover{
   background:transparent;
   color: var(--white-color);
   border:1px solid var(--white-color);

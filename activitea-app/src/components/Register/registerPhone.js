@@ -1,6 +1,7 @@
-import React, {useState, useRef} from 'react'
+import React, {useState, useRef,useEffect} from 'react'
 import { axiosPost } from '../CommunFunctions/axiosFunction'
 import getCurrentUser from '../Login/getCurrentUser'
+import { phoneValidation } from '../Validation'
 
 function RegisterPhone() {
 
@@ -14,10 +15,26 @@ function RegisterPhone() {
     const [ error,setError ] = useState(null)
     const [ success,setSuccess ] = useState(null)
     const [ disable,setDisable ] = useState(false)
+    const [ validation,setValidation ] = useState(false)
     const { phone } = proPhone;
     const currentUser = getCurrentUser();
     const box2 = useRef()
     
+    //Validation, checking email format
+    useEffect(() => {
+        if (phone.length > 0) {
+            if (phoneValidation(phone)) {
+                setError(null)
+                setValidation(true)
+            } else if (!phoneValidation(phone)){
+                setError("Le format du numéro n'est pas valide")
+                setValidation(false)
+            }
+        } else if(phone === ''){
+            setError(null)
+            setValidation(false)
+        }
+    }, [phone])
     
     const handleChange = e =>{
         setProPhone({
@@ -52,7 +69,7 @@ function RegisterPhone() {
     
     
     // submit button management
-    const btn =  phone !== '' ? <button type='submit' className='btn'>Go!</button> :
+    const btn =  validation ? <button type='submit' className='btn'>Go!</button> :
     <button className='btn' disabled>Go!</button>
     
     //success message display

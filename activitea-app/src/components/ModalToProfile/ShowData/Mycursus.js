@@ -5,6 +5,7 @@ import ifNoData from '../../CommunFunctions/ifNoDataFunction'
 import editIcon from '../../../image/editIcon.png'
 import deleteIcon from '../../../image/deleteIcon.png'
 import { useNavigate } from 'react-router-dom'
+import { dateValidation } from '../../Validation'
 
 
 function MyCursus(props) {
@@ -23,6 +24,7 @@ const [ cursusTable, setCursusTable ] = useState([]);
 const [ displayCursusUpdate, setDisplayCursusUpdate ] = useState(false);
 const [ error,setError ] = useState(null);
 const [ success,setSuccess ] = useState(null);
+const [ validation,setValidation ] = useState(false)
 const navigate = useNavigate()
 //udapte declaration part
 const [ cursus,setCursus ] = useState(cursusData);
@@ -31,7 +33,7 @@ const box = useRef()
 
 
 
-//phone numbers display
+//cursus numbers display
 useEffect(()=>{
  getCursus()
 },[])
@@ -46,7 +48,7 @@ const getCursus = () =>{
     })
 }
 
-//phones delete management
+//cursus delete management
 const handleDelete = e => {
 
     const userConfirmed = window.confirm("Etes vous sur de vouloir effacer ce cursus ?");
@@ -91,6 +93,22 @@ const handleChange = e =>{
     })
 }
 
+    //Validation, checking date format
+    useEffect(() => {
+        if (date.length > 0) {
+            if (dateValidation(date)) {
+                setError(null)
+                setValidation(true)
+            } else if (!dateValidation(date)){
+                setError("veuillez à respecter le format indiqué des dates")
+                setValidation(false)
+            }
+        } else if(date === ''){
+            setError(null)
+            setValidation(false)
+        }
+    }, [date])
+
 //submit update email
 const handleSubmit = e => {
     e.preventDefault();
@@ -123,7 +141,7 @@ const successMsg = success !== null &&<div className='successMsg '>{success}</di
 const errorMsg = error !== null && <div className='errorMsg'>{error}</div>
 
 // submit button management
-const  btn =  school !== '' || diploma !== '' || date !== '' ? <button type='submit' className='btn'>Go!</button> :
+const  btn =  school !== '' || diploma !== '' || validation ? <button type='submit' className='btn'>Go!</button> :
 <button className='btn' disabled>Go!</button>
 
 //display phone component for update
