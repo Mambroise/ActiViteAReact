@@ -489,7 +489,7 @@ margin: auto;
 }
 
 .coverletterInput{
-  margin: auto;
+  margin: 10px auto 30px;
   width: 90%;
   min-height: 500px;
 }
