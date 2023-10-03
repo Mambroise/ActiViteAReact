@@ -20,8 +20,8 @@ const gptButton = currentUser && <Link  className='landingGptLink' to='/addworka
         {signUpButton}
       </div>
       <div className='landingRightBox'>
-        <h1>Tes lettres de motivation pensées par Chat GPT</h1>
         {gptButton}
+        <h1>Tes lettres de motivation pensées par Chat GPT</h1>
       </div>
     </main>
   )

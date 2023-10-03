@@ -16,8 +16,9 @@ const [ success,setSuccess ] = useState(null)
 const [ validation,setValidation ] = useState(false)
 const [ disable,setDisable ] = useState(false)
 const { proEmail } = email;
-const currentUser = getCurrentUser();
 const box = useRef() 
+const currentUser = getCurrentUser();
+
 
 //Validation, checking email format
 useEffect(() => {

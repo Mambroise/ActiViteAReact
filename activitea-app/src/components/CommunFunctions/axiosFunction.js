@@ -1,28 +1,49 @@
 import axios from'axios';
+import getCurrentUser from '../Login/getCurrentUser';
+
+//retreive user token if not null
+const currentUser = getCurrentUser()
+let token = null
+if (currentUser !== null) {
+  token = currentUser.token
+}
+
+// function return the bearer to check security token
+const bearer = () =>{
+  return {
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization' : 'Bearer ${token}'
+    }
+  }
+}
+
+//back End URL
+const url = 'http://localhost:8080/'
+
 //post data function
 async function axiosPost(destination, data) {
-    return await axios.post(`http://localhost:8080/${destination}`,data)
+    return await axios.post(url+destination,data, bearer)
   }
 
 //get data function
 async function axiosGet(origin, userId) {
-  return await axios.get(`http://localhost:8080/${origin}/${userId}`) 
+  return await axios.get(`${url}${origin}/${userId}`) 
 }
 
 //update data function
 async function axiosPut(destination, dataId, data) {
-  return await axios.put(`http://localhost:8080/${destination}/${dataId}`,data) 
+  return await axios.put(`${url}${destination}/${dataId}`,data) 
 }
 
 //delete data function
 async function axiosDelete(destination, dataId) {
-  return await axios.delete(`http://localhost:8080/${destination}/${dataId}`) 
+  return await axios.delete(`${url}${destination}/${dataId}`) 
 }
 
-//delete data function
+//gpt API function
 async function axiosGpt(prompt) {
     return await axios.post('http://localhost:8080/api/generate-text', prompt);
-
 }
 
 export {axiosPost,axiosGet,axiosPut,axiosDelete,axiosGpt}

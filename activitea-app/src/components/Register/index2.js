@@ -25,8 +25,8 @@ function RegisterPart2() {
               <RegisterLifeExp/>
               <RegisterProSkill/>
               <div className='flex-between'>
-                <button onClick={handleFormerPage} className='btn'>Page précédente</button>
-                <button onClick={handleFinish} className='btn'>Terminer</button>
+                <button onClick={handleFormerPage} className='btnNavigation'>Page précédente</button>
+                <button onClick={handleFinish} className='btnNavigation'>Terminer</button>
               </div>
           </div>
       </div>

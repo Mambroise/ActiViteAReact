@@ -63,7 +63,7 @@ const errorMsg = error !== null && <div className='errorMsg'>{error}</div>
   return (
     <div className='registerFormContainer'>
         <p className='align-center'><strong>Expérience de vie:</strong></p>
-        <p className='align-center'><small>Tu deiriges une association, tu es champion d'horthographe</small></p>
+        <p className='align-center margin-auto'><small>Tu deiriges une association, tu es champion d'horthographe</small></p>
         {successMsg}
         {errorMsg}
         <form onSubmit={handleSubmit}>

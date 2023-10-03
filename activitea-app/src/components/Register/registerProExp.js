@@ -68,7 +68,7 @@ function RegisterProExp() {
             <div  className='inputBox'>
                 <input onChange={handleChange}
                 type='text' id='company' value={company}
-                autoComplete='off' disabled={disable}  required/>
+                autoComplete='off' disabled={disable} required/>
                 <label htmlFor='company'>Société</label>
             </div>
             <div  className='inputBox'>
@@ -86,7 +86,7 @@ function RegisterProExp() {
             <div className='inputBox'>
                 <input onChange={handleChange}
                 type='text' id='endDate' value={endDate}
-                autoComplete='off' disabled={disable}/>
+                autoComplete='off' disabled={disable} required/>
                 <label htmlFor='endDate'>Date fin (yyyy-mm-dd)</label>
             </div>
         </div>

@@ -1,4 +1,4 @@
-
+import React, { useState, lazy, Suspense } from 'react';
 import '../../App.css';
 import Header from '../Header';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
@@ -7,11 +7,10 @@ import Login from '../Login';
 import Signup from '../Signup';
 import RegisterPart1 from '../Register/index1';
 import RegisterPart2 from '../Register/index2';
-import ModalToProfile from '../ModalToProfile';
-import { useState } from 'react';
 import WorkAd from '../Coverletter/WorkAdd';
 import GeneratedCoverLetter from '../Coverletter/GeneratedCoverLetter';
 
+const LazyModalToProfile = lazy(() => import('../ModalToProfile'));
 function App() {
 
 const [display, setDisplay] = useState(false);
@@ -20,7 +19,6 @@ const handleDisplay = () =>{
   setDisplay(!display)
 }
 
-const displayModal = display && <ModalToProfile handleDisplay={handleDisplay}/>
   return (
     <div>
       <Router>
@@ -34,7 +32,11 @@ const displayModal = display && <ModalToProfile handleDisplay={handleDisplay}/>
           <Route path='/addworkad' element={<WorkAd/>}/>
           <Route path='/generatecoverletter' element={<GeneratedCoverLetter/>}/>
         </Routes>
-        {displayModal}
+        {display && (
+          <Suspense fallback={<div>Loading...</div>}>
+            <LazyModalToProfile handleDisplay={handleDisplay} />
+          </Suspense>
+        )}
       </Router>
     </div>
   );

@@ -13,8 +13,9 @@
 :root{
   --white-color: #F5F5F5;
   --black-color: #3C3C3C;
-  --green-color: #88B8A5;
-  --dark-green-color: darkgreen;
+  --light-black-color: #3c3c3cd3;
+  --mustard-color: #dbaf37;
+  --dark-mustard-color: #be931c;
   --light-blue-color: #b1dbca;
   --blue-color: #588CA5;
   --darker-blue-color: #023465;
@@ -49,7 +50,7 @@ h2{
 
 /* HEADER */
 header{
-  background-color: var(--green-color);
+  background-color: var(--mustard-color);
   border-bottom: 2px solid var(--black-color);
   color: var(--white-color);
 }
@@ -147,7 +148,7 @@ main{
 /*Buttons*/
 .btn{
   padding: 3px 20px;
-  color: var(--green-color);
+  color: var(--mustard-color);
   font-size: 20px;
   font-weight: bold;
   border: 1px solid var(--black-color);
@@ -159,6 +160,25 @@ main{
   transition: 0.2s;
 }
 
+.btnNavigation{
+  padding: 3px 20px;
+  color: var(--black-color);
+  font-size: 20px;
+  font-weight: bold;
+  border: 2px solid var(--black-color);
+  border-radius: 5px;
+  background: transparent;
+  -webkit-transition: 0.2s;
+  -moz-transition: 0.2s;
+  -o-transition: 0.2s;
+  transition: 0.2s;
+}
+
+.btnNavigation:hover{
+  background-color: var(--black-color);
+  color: var(--mustard-color);
+}
+
 button:disabled,
 button[disabled],
 button:disabled:hover,
@@ -168,9 +188,9 @@ button[disabled]:hover{
 }
 
 .btn:hover{
-  background-color: var(--green-color);
+  background-color: var(--mustard-color);
   color: var(--black-color);
-  border-color: var(--green-color) ;
+  border-color: var(--mustard-color) ;
 }
 
 /*Landing*/
@@ -184,7 +204,7 @@ button[disabled]:hover{
   text-align: end;
   color: var(--white-color);
   flex: 0 1 25% ;
-  padding: 7% 2% 5% 15%;
+  padding: 12% 2% 5% 15%;
 }
 
 .landingRightBox h1{
@@ -196,11 +216,14 @@ button[disabled]:hover{
   position: absolute;
   top: 35%;
   left: 15%;
-  padding: 10px 3px;
+  width: 200px;
+  padding: 80px 0px;
+  font-weight: bold;
+  text-align: center;
   background-color: var(--white-color);
-  border-radius: 5px;
+  border-radius: 100px;
   color: var(--black-color);
-  font-size: 20px;
+  font-size: 30px;
 }
 
 .landingSignupLink:hover{
@@ -216,7 +239,7 @@ button[disabled]:hover{
 /*Landing go button*/
 .landingGoLink{
   position: absolute;
-  top: 30%;
+  top: 32%;
   left: 5%;
   padding: 8px 30px;
   background-color: var(--white-color);
@@ -288,9 +311,9 @@ button[disabled]:hover{
   justify-content: center;
   padding: 10px;
   box-shadow:
-  0px 0px 5px var(--light-blue-color) inset,
-  2px 2px 2px var(--light-blue-color),
-  -2px -2px 2px var(--light-blue-color);
+  0px 0px 5px var(--blue-color) inset,
+  2px 2px 2px var(--blue-color),
+  -2px -2px 2px var(--blue-color);
 }
 
 .signupFromContainer,
@@ -319,7 +342,7 @@ margin: auto;
 .registerFormContainer .inputBox input{
   width: 100%;
   font-size: 17px;
-  color: var(--dark-green-color);
+  color: var(--dark-mustard-color);
   font-weight: bold;
   background: transparent;
   border: none;
@@ -378,6 +401,7 @@ margin: auto;
   margin: 5px auto;
   text-align: center;
   color: var(--red-color);
+  border-radius: 5px;
   box-shadow:
    0px 0px 2px var(--red-color) inset,
   1px 1px 2px var(--red-color),
@@ -390,31 +414,44 @@ margin: auto;
   margin: 5px auto;
   text-align: center;
   font-weight: bold;
-  background: var(--light-blue-color);
+  color: var(--white-color);
+  background: var(--blue-color);
+  border-radius: 5px;
   box-shadow:
-   0px 0px 2px var(--green-color) inset,
-  1px 1px 2px var(--green-color),
-  -1px -1px 1px var(--green-color);
+   0px 0px 2px var(--light-blue-color) inset,
+  1px 1px 2px var(--light-blue-color),
+  -1px -1px 1px var(--light-blue-color);
 }
 
 /* END MAIN*/
 
 /* MODAL TO PROFILE*/
-
 .modalToProfile{
   position: absolute;
   top:0;
   right: 0;;
-  width:30%;
+  width:100%;
   height: 100%;
-  padding:6% 2% 0% 2%;
-  background-color: #88b8a5b5
+  padding-top: 2%;
+  background-color: var(--light-black-color)
 }
 .profileContainer{
-  background-color: var(--white-color);
+  margin: auto;
   padding: 1%;
-  min-height: 95%;
+  width: 35%;
+  min-height: 90%;
+  background-color: var(--white-color);
+  border-radius: 10px;
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: opacity 1s ease, transform 1s ease;
 }
+
+.profileContainer.fade-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 
 .float-right{
   float: right;
@@ -469,7 +506,7 @@ margin: auto;
 .updatePasswordtBox input{
   width: 80%;
   font-size: 17px;
-  color: var(--dark-green-color);
+  color: var(--dark-mustard-color);
   font-weight: bold;
   background: transparent;
   border: none;
@@ -483,7 +520,7 @@ margin: auto;
 
 /* COVERLETTER PAGES */
 .workAdInput{
-  margin: auto;
+  margin: 0px auto 20px;
   width: 90%;
   min-height: 300px;
 }
@@ -502,8 +539,8 @@ margin: auto;
   border-top: 5px solid var(--red-color);
   border-left: 5px solid var(--red-color);
   border-right: 5px solid var(--red-color);
-  -webkit-animation: spin 1s linear infinite;
-  animation: spin 1s linear infinite;
+  -webkit-animation: spin 0.8s linear infinite;
+  animation: spin 0.8s linear infinite;
 }
 
 

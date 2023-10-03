@@ -26,7 +26,7 @@ function RegisterPart1() {
         <div className='slContainer'>
             <RegisterCursus/>
             <RegisterProExp/>
-            <button className='btn float-right' onClick={goToPage2}>Page suivante</button>
+            <button className='btnNavigation float-right' onClick={goToPage2}>Page suivante</button>
         </div>
     </div>
     </>

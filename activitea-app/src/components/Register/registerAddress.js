@@ -68,7 +68,7 @@ function RegisterAddress() {
             <div  className='inputBox'>
                 <input onChange={handleChange}
                 type='number' id='number' value={number}
-                autoComplete='off' disabled={disable}  />
+                autoComplete='off' disabled={disable}  required/>
                 <label htmlFor='number'>Numéro</label>
             </div>
             <div  className='inputBox'>
