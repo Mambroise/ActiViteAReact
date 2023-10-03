@@ -1,8 +1,8 @@
 import React, { useState,useRef } from 'react'
 import { axiosPost } from '../CommunFunctions/axiosFunction'
 import getCurrentUser from '../Login/getCurrentUser'
-import languages from './languages.json';
-import levels from './languageLevel.json';
+import levels from './../../languageLevel.json';
+import languages from './../../languages.json';
 
 
 function RegisterLanguage() {

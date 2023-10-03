@@ -12,6 +12,7 @@ import GeneratedCoverLetter from '../Coverletter/GeneratedCoverLetter';
 
 const LazyModalToProfile = lazy(() => import('../ModalToProfile'));
 function App() {
+  
 
 const [display, setDisplay] = useState(false);
 

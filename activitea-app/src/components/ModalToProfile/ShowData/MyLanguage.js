@@ -2,8 +2,8 @@ import React, { useEffect,useState,useRef } from 'react'
 import { axiosDelete, axiosGet, axiosPut } from '../../CommunFunctions/axiosFunction'
 import getCurrentUser from '../../Login/getCurrentUser'
 import ifNoData from '../../CommunFunctions/ifNoDataFunction'
-import languages from '../../Register/languages.json';
-import levels from '../../Register/languageLevel.json';
+import languages from './../../../languages.json';
+import levels from './../../../languageLevel.json';
 import editIcon from '../../../image/editIcon.png'
 import deleteIcon from '../../../image/deleteIcon.png'
 import { useNavigate } from 'react-router-dom'
