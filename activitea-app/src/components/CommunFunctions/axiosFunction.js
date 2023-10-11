@@ -28,22 +28,22 @@ async function axiosPost(destination, data) {
 
 //get data function
 async function axiosGet(origin, userId) {
-  return await axios.get(`${url}${origin}/${userId}`) 
+  return await axios.get(`${url}${origin}/${userId}`, bearer) 
 }
 
 //update data function
 async function axiosPut(destination, dataId, data) {
-  return await axios.put(`${url}${destination}/${dataId}`,data) 
+  return await axios.put(`${url}${destination}/${dataId}`,data, bearer) 
 }
 
 //delete data function
 async function axiosDelete(destination, dataId) {
-  return await axios.delete(`${url}${destination}/${dataId}`) 
+  return await axios.delete(`${url}${destination}/${dataId}`, bearer) 
 }
 
 //gpt API function
 async function axiosGpt(prompt) {
-    return await axios.post('http://localhost:8080/api/generate-text', prompt);
+    return await axios.post(`${url}api/generate-text`, prompt);
 }
 
 export {axiosPost,axiosGet,axiosPut,axiosDelete,axiosGpt}

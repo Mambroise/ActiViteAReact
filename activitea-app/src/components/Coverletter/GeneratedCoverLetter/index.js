@@ -1,7 +1,7 @@
 
 import React, { useState,useEffect } from 'react'
 import { axiosGpt, axiosPut } from '../../CommunFunctions/axiosFunction';
-import getCurrentUser, { getCoverletter, getUserAddress, getUserCursus, getUserLanguage, getUserLifeExp, getUserPhone, getUserProExp, getUserSkill, getWorkAd } from '../../Login/getCurrentUser'
+import getCurrentUser, { getCoverletter, getUserAddress, getUserCursus, getUserLanguage, getUserLifeExp, getUserPhone, getUserProExp, getUserSkill } from '../../Login/getCurrentUser'
 import { useNavigate } from 'react-router-dom';
 import { pdfjs } from 'react-pdf';
 
@@ -30,8 +30,6 @@ function GeneratedCoverLetter() {
   
   const coverId =getCoverletter()[0]
   const workAd =  getCoverletter()[1].work_ad
-  console.log(coverId);
-  console.log(workAd);
   const phone = getUserPhone()
   const address = getUserAddress()
   const cursus = getUserCursus()
@@ -60,50 +58,53 @@ function GeneratedCoverLetter() {
     
 
     const gptApi = ()=>{
-                // ===== Here we build a complete prompt made of the user data ===== //
-                const prompt = "En réponse à la recherche de poste de l'annonce de travail qui suit: " +
-                workAd+ " peux tu écrire une lettre de motivation en moins de  350 mots strictement, "
-                +"en utilisant les données de ce candidat que tu trouves les plus pertinentes et utiles."+
-                " voici les données du candidat : nom, prénom :" +currentUser.fullname + ", email: " +currentUser.email+
-                ", téléphone: "+phone+", adresse: "+
-                address.map(address=>(
-                  "numéro: " +address.number+ ", "+
-                  "rue: " +address.street+ ", "+
-                  "code postal: " +address.zipCode+ ", "+
-                  "ville: " +address.city)) +". Cursus scolaire: "+ 
-                cursus.map(cursus=>(
-                "école: "+cursus.school + ", "+
-                "diplome: "+cursus.diploma + "; "))+
-                " garde ici les cursus les plus pertinents en rapport à l'annonce."+
-                " Parcours professionnels du candidat: "+
-                proExp.map(exp=>(
-                    "société: "+exp.company+ ", "+
-                    "poste: "+exp.title
-                ))+" garde ici les métiers et postes les plus pertinents en rapport à l'annonce."+
-                " Les expériences de vie du candidat qui pourraient offrir des compétences utiles: "+
-                lifeExp.map(exp=>(
-                    exp.content
-                ))+". Garde ici les expérience de vie les plus pertinentes en rapport à l'annonce."+
-                " Les langues parlées: "+
-                language.map(lang=>(
-                    lang.language
-                ))+ " et pour finir, les grandes compétences du candidat: "+
-                skill.map(skill=>(
-                    skill.skill
-                ))+". Garde ici les compétences les plus pertinentes en rapport à l'annonce."+
-                "Tu peux également ajouter les compétences qui te semblent nécessaires à l'obtention du poste."+
-                " Il faut éviter de reprendre les phrases de l'annonce à l'identique."
-                
-      
-                // ===== posting the prompt to ChatGPT API ===== //  
-                axiosGpt({ prompt: prompt })
-                .then(response=>{
-                  setOutputText(response.data)
-                })
-                .catch(error=>{
-                  console.error('Error:', error);
-                  console.log(error.message);
-                })
+        // ===== Here we build a complete prompt made of the user data ===== //
+        const prompt = "En réponse à la recherche de poste de l'annonce de travail qui suit: " +
+        workAd+ " peux tu écrire une lettre de motivation en moins de  350 mots strictement, "
+        +"en utilisant les données de ce candidat que tu trouves les plus pertinentes et utiles."+
+        " voici les données du candidat : nom, prénom :" +
+        currentUser.fullname + ", email: " +
+        currentUser.email+
+        ", téléphone: "+
+        phone+", adresse: "+
+        address.map(address=>(
+          "numéro: " +address.number+ ", "+
+          "rue: " +address.street+ ", "+
+          "code postal: " +address.zipCode+ ", "+
+          "ville: " +address.city)) +". Cursus scolaire: "+ 
+        cursus.map(cursus=>(
+        "école: "+cursus.school + ", "+
+        "diplome: "+cursus.diploma + "; "))+
+        " garde ici les cursus les plus pertinents en rapport à l'annonce."+
+        " Parcours professionnels du candidat: "+
+        proExp.map(exp=>(
+            "société: "+exp.company+ ", "+
+            "poste: "+exp.title
+        ))+" garde ici les métiers et postes les plus pertinents en rapport à l'annonce."+
+        " Les expériences de vie du candidat qui pourraient offrir des compétences utiles: "+
+        lifeExp.map(exp=>(
+            exp.content
+        ))+". Garde ici les expérience de vie les plus pertinentes en rapport à l'annonce."+
+        " Les langues parlées: "+
+        language.map(lang=>(
+            lang.language
+        ))+ " et pour finir, les grandes compétences du candidat: "+
+        skill.map(skill=>(
+            skill.skill
+        ))+". Garde ici les compétences les plus pertinentes en rapport à l'annonce."+
+        "Tu peux également ajouter les compétences qui te semblent nécessaires à l'obtention du poste."+
+        " Il faut éviter de reprendre les phrases de l'annonce à l'identique."
+        
+
+        // ===== posting the prompt to ChatGPT API ===== //  
+        axiosGpt({ prompt: prompt })
+        .then(response=>{
+          setOutputText(response.data)
+        })
+        .catch(error=>{
+          console.error('Error:', error);
+          console.log(error.message);
+        })
     }
   
 
@@ -111,6 +112,7 @@ function GeneratedCoverLetter() {
       const handleChange = e => {
           setCoverLetter({...coverletter, [e.target.id] : e.target.value})
       }
+
         //Save the coverletter after possible correction
         const handleSubmit = e => {
           e.preventDefault()
@@ -119,12 +121,16 @@ function GeneratedCoverLetter() {
             work_ad : workAd,
             userId : currentUser.id
           })
+
         axiosPut("coverletter",coverId, coverletter)
         .then(response => {
-          console.log(coverId);
             setError(null)
             setSuccess(response.data)
             setDisplayDownloadBtn(true)
+            //removing user data from local storage
+            const itemsToRemove = ["phone", "address",
+             "cursus", "language", "proExp", "lifeExp", "skill", "coverletter"];
+            itemsToRemove.forEach(item => localStorage.removeItem(item));
         })
         .catch(error => {
           console.log(error);
@@ -148,8 +154,8 @@ function GeneratedCoverLetter() {
     const errorMsg = error !== null && <div className='errorMsg'>{error}</div>
 
     // submit button management
-    const  btn =  workAd.work_ad !== '' ? <button type='submit' className='btn margin-auto'>Go!</button> :
-    <button className='btn' disabled>Go!</button>
+    const  btn =  outputText !== '' ? <button type='submit' className='btn margin-auto'>Enregistrer</button> :
+    <button className='btn margin-auto' disabled>Enregistrer</button>
 
     //Loader
     const displayCoverLetter = coverletter.letter === '' ? (

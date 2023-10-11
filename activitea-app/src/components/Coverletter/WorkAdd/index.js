@@ -36,8 +36,6 @@ function WorkAd() {
 
     
     const getAllData = () => {
-
-      
        // ===== get phone number from user data ===== //
       axiosGet("prophone", currentUser.id)
       .then(response=>{
@@ -91,7 +89,7 @@ function WorkAd() {
       .catch(error=>{
         console.log("lifeexp", error.message);
       })
-      
+
       // ===== get skills from user data ===== //
       axiosGet("skill", currentUser.id)
       .then(response=>{
@@ -100,7 +98,6 @@ function WorkAd() {
       .catch(error=>{
         console.log("skill ",error.message);
       })
-
     }
 
     //submit the workAd form apres fetching all users infos 
@@ -123,10 +120,9 @@ function WorkAd() {
             console.log(error);
         })
         
-        // ===== get the work ad previously saved =====//
+        // ===== get the work ad and coverletter id previously saved and created ===== //
         axiosGet("last-coverletter", currentUser.id)
         .then(response=>{
-            console.log(response.data.id);
             localStorage.setItem("coverletter", JSON.stringify([response.data.id,workAd]));
             navigate("/generatecoverletter")
         })
@@ -135,12 +131,12 @@ function WorkAd() {
         })
     }
 
-    const handleChange = e => {
-        setWorkAd({...workAd,
-            work_ad : e.target.value,
-            userId : currentUser.id
-        })
-    }
+      const handleChange = e => {
+          setWorkAd({...workAd,
+              work_ad : e.target.value,
+              userId : currentUser.id
+          })
+      }
 
     //success message display
     const successMsg = success !== null &&<div className='successMsg '>{success}</div>

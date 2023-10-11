@@ -11,8 +11,7 @@ import WorkAd from '../Coverletter/WorkAdd';
 import GeneratedCoverLetter from '../Coverletter/GeneratedCoverLetter';
 
 const LazyModalToProfile = lazy(() => import('../ModalToProfile'));
-function App() {
-  
+function App() { 
 
 const [display, setDisplay] = useState(false);
 
