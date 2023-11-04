@@ -119,16 +119,18 @@ function WorkAd() {
         .catch(error => {
             console.log(error);
         })
-        
-        // ===== get the work ad and coverletter id previously saved and created ===== //
-        axiosGet("last-coverletter", currentUser.id)
-        .then(response=>{
-            localStorage.setItem("coverletter", JSON.stringify([response.data.id,workAd]));
-            navigate("/generatecoverletter")
-        })
-        .catch(error=>{
-            console.log("coverletter ",error.message);
-        })
+        setTimeout(() => {
+          
+          // ===== get the work ad and coverletter id previously saved and created ===== //
+          axiosGet("last-coverletter", currentUser.id)
+          .then(response=>{
+              localStorage.setItem("coverletter", JSON.stringify([response.data.id,workAd]));
+              navigate("/generatecoverletter")
+          })
+          .catch(error=>{
+              console.log("coverletter ",error.message);
+          })
+        }, 1000);
     }
 
       const handleChange = e => {

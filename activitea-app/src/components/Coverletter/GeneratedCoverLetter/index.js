@@ -121,16 +121,17 @@ function GeneratedCoverLetter() {
             work_ad : workAd,
             userId : currentUser.id
           })
-
+          console.log("ID",coverId);
         axiosPut("coverletter",coverId, coverletter)
         .then(response => {
             setError(null)
             setSuccess(response.data)
             setDisplayDownloadBtn(true)
+            console.log(displayDownloadBtn);
             //removing user data from local storage
             const itemsToRemove = ["phone", "address",
              "cursus", "language", "proExp", "lifeExp", "skill", "coverletter"];
-            itemsToRemove.forEach(item => localStorage.removeItem(item));
+            // itemsToRemove.forEach(item => localStorage.removeItem(item));
         })
         .catch(error => {
           console.log(error);
@@ -154,7 +155,7 @@ function GeneratedCoverLetter() {
     const errorMsg = error !== null && <div className='errorMsg'>{error}</div>
 
     // submit button management
-    const  btn =  outputText !== '' ? <button type='submit' className='btn margin-auto'>Enregistrer</button> :
+    const  btn =  outputText !== '' && displayDownloadBtn ===false ? <button type='submit' className='btn margin-auto'>Enregistrer</button> :
     <button className='btn margin-auto' disabled>Enregistrer</button>
 
     //Loader
