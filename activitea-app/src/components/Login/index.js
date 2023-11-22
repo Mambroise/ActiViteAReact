@@ -18,7 +18,7 @@ function Login() {
     const handleChange = e => {
         setLoginData({...loginData, [e.target.id] : e.target.value});
     } 
-    
+
     const handleSubmit =e=> {
            e.preventDefault()
            axiosPost("login", loginData)
@@ -63,7 +63,7 @@ function Login() {
                     <input onChange={handleChange} type='password' id='password' value={password} autoComplete='off' required/>
                     <label htmlFor='loginPassword'>Mot de passe</label>
                 </div>
-                    <Link to="/signup"><i><u>Première fois sur ActiViteA? Je m'inscris</u></i></Link>
+                    <Link to="/signup"><i><u>Première fois sur ActiViteA ? Je m'inscris</u></i></Link>
                 <div className='loginSignupBtnBox'>
                     {btn}
                 </div>

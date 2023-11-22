@@ -330,6 +330,10 @@ width: 80%;
 margin: auto;
 }
 
+.radioBox{
+  height: 70px;
+}
+
 .loginFormContainer .inputBox,
 .signupFromContainer .inputBox,
 .registerFormContainer .inputBox{

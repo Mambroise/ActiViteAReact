@@ -20,11 +20,15 @@ function Signup() {
     }
  
     const [signup,setSignup] = useState(data);
+    const [man,setMan] = useState(false);
+    const [woman,setWoman] = useState(false);
     const [confPassword,setConfPassword] = useState({confPassword : ''})
     const [success,setSuccess] =useState(null)
     const [error,setError] =useState(null)
+    const [acceptedMsg,setAcceptedMsg] =useState(null)
     const [ emailValid,setEmailValid ] = useState(false)
     const [ passwordValid,setPasswordValid ] = useState(false)
+    const [accepted, setAccepted] = useState(true);
     const { firstName, name, email, password } = signup;
     const navigate = useNavigate();
 
@@ -61,6 +65,16 @@ function Signup() {
         }
     }, [password])
 
+    const handleGender = e => {
+        if (e.target.id === "man") {
+            setMan(true)
+            setWoman(false)
+        } else {
+            setMan(false)
+            setWoman(true)
+        }
+    } 
+
     const handleChange = e => {
         setSignup({...signup, [e.target.id] : e.target.value});
     } 
@@ -69,28 +83,40 @@ function Signup() {
         setConfPassword(e.target.value);  
     }
 
+    const handleAccepted = () => {
+        setAccepted(!accepted);
+        setAcceptedMsg(null)
+    }
+
     //envoie des données vers springBoot
     const handleSubmit =e=> {
         e.preventDefault()
-        axiosPost("register", signup)
-        .then(response =>{
-            setSignup(data)
-            setError(null)
-            setSuccess("Bravo! vous avez bien été enrergistré(e)")
-            setTimeout(() => {
-                navigate("/login")
-            }, 2000);
-        })
-        .catch(error=>{
-            setError(error.message)
-            setSignup(data)
-        })
+        if (accepted) {     
+            axiosPost("register", signup)
+            .then(response =>{
+                setSignup(data)
+                setError(null)
+                setSuccess("Bravo! vous avez bien été enrergistré(e)")
+                setTimeout(() => {
+                    navigate("/login")
+                }, 2000);
+            })
+            .catch(error=>{
+                setError(error.message)
+                setSignup(data)
+            })
+        } else {
+            setAcceptedMsg("Vous devez valider les conditions générales")
+        }
     }
 
     // Affichage du bouton valider 
     const btn = firstName === '' || name === '' || !emailValid ||
     !passwordValid || password !== confPassword ? <button className='btn' disabled>Go!</button>
     : <button className='btn' type='submit'>Go!</button>
+
+    //display success message
+    const notAcceptedMsg = acceptedMsg !== null && <div className='errorMsg'>{acceptedMsg}</div>
 
     //display success message
     const successMsg = success !== null && <div className='successMsg'>{success}</div>
@@ -105,6 +131,22 @@ function Signup() {
         {successMsg}
         <div className='signupFromContainer'>
             <form onSubmit={handleSubmit}>
+                 <div className='radioBox' >
+                    <input 
+                    id='man'
+                    type='radio' 
+                    checked={man}
+                    onChange={handleGender}
+                    />
+                    <i>homme</i>
+                    <input 
+                    id='woman'
+                    type='radio' 
+                    checked={woman}
+                    onChange={handleGender}
+                    />
+                    <i >femme</i>
+                </div>
                  <div className='inputBox'>
                     <input onChange={handleChange} type='text' id='firstName' value={firstName} autoComplete='off' required/>
                     <label htmlFor='firstName'>Prénom</label>
@@ -124,6 +166,16 @@ function Signup() {
                 <div className='inputBox'>
                     <input onChange={handleConfPassword} type='password' id='confirmPassword' value={confPassword} autoComplete='off' required/>
                     <label htmlFor='confirmPassword'>Confirmer Mot de passe</label>
+                </div>
+                <div  >
+                    <input 
+                    type='checkbox' 
+                    checked={accepted}
+                    onChange={handleAccepted}
+                    />
+                    <i >J'accepte les conditions générales d'utilisation de
+                         l'application ActiviteA en accord avec la réglementation européenne</i>
+                         {notAcceptedMsg}
                 </div>
                 <div className='loginSignupBtnBox'>
                     {btn}
