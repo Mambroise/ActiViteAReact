@@ -33,7 +33,7 @@ async function axiosGet(origin, userId) {
 
 //update data function
 async function axiosPut(destination, dataId, data) {
-  return await axios.put(`${url}${destination}/${dataId}`,data, bearer) 
+  return await axios.put(`${url}${destination}/${dataId}`,data) 
 }
 
 //delete data function

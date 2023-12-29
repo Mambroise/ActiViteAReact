@@ -145,6 +145,10 @@ main{
   margin-top: 20px;
 }
 
+hr{
+  border: 1px solid var(--black-color);
+}
+
 /*Buttons*/
 .btn{
   padding: 3px 20px;
@@ -334,6 +338,14 @@ margin: auto;
   height: 70px;
 }
 
+.radioBox label{
+font-weight: bold;
+}
+
+.radioBox input:focus~label{
+  font-weight: normal;
+}
+
 .loginFormContainer .inputBox,
 .signupFromContainer .inputBox,
 .registerFormContainer .inputBox{
@@ -346,7 +358,7 @@ margin: auto;
 .registerFormContainer .inputBox input{
   width: 100%;
   font-size: 17px;
-  color: var(--dark-mustard-color);
+  color: var(--black-color);
   font-weight: bold;
   background: transparent;
   border: none;

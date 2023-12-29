@@ -63,10 +63,10 @@ function Login() {
                     <input onChange={handleChange} type='password' id='password' value={password} autoComplete='off' required/>
                     <label htmlFor='loginPassword'>Mot de passe</label>
                 </div>
-                    <Link to="/signup"><i><u>Première fois sur ActiViteA ? Je m'inscris</u></i></Link>
                 <div className='loginSignupBtnBox'>
                     {btn}
                 </div>
+                    <Link to="/signup" ><i><u><small>Première fois sur activitea? Je m'inscris</small></u></i></Link>
             </form>
         </div>
     </div>

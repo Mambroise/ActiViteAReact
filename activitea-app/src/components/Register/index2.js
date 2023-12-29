@@ -18,7 +18,7 @@ function RegisterPart2() {
   return (
     <>
       <h2>Données Personnelles</h2>
-      <p className='align-center'>Veuillez remplir les champs si dessous.</p>
+      <p className='align-center'>Veuillez remplir les champs ci-dessous.</p>
       <div className='container'>
           <div className='slContainer'>
               <RegisterLanguage/>

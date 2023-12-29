@@ -32,7 +32,7 @@ const loggedInUser = currentUser === null ? (
                 </Link>
             </div>
             <div>
-                <h2 className='accroche'>"Ecris moi, postule plus!"</h2>
+                <h2 className='accroche'>"Ecris moins, postule plus!"</h2>
             </div>
            {loggedInUser}
         </div>

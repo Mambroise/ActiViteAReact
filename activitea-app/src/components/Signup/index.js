@@ -8,6 +8,7 @@ function Signup() {
 
     // déclaration des données
    const data = {
+        gender: '',
         name : '',
         firstName : '',
         email : '',
@@ -69,9 +70,13 @@ function Signup() {
         if (e.target.id === "man") {
             setMan(true)
             setWoman(false)
+            setSignup({...signup, gender: "homme"})
+            console.log(signup.gender);
         } else {
             setMan(false)
             setWoman(true)
+            setSignup({...signup, gender: "femme"})
+            console.log(signup.gender);
         }
     } 
 
@@ -98,7 +103,7 @@ function Signup() {
                 setError(null)
                 setSuccess("Bravo! vous avez bien été enrergistré(e)")
                 setTimeout(() => {
-                    navigate("/login")
+                navigate("/login")
                 }, 2000);
             })
             .catch(error=>{
@@ -138,33 +143,59 @@ function Signup() {
                     checked={man}
                     onChange={handleGender}
                     />
-                    <i>homme</i>
+                    <label htmlFor='man'>homme</label>
                     <input 
                     id='woman'
                     type='radio' 
                     checked={woman}
                     onChange={handleGender}
                     />
-                    <i >femme</i>
+                    <label htmlFor='woman'>femme</label>
                 </div>
                  <div className='inputBox'>
-                    <input onChange={handleChange} type='text' id='firstName' value={firstName} autoComplete='off' required/>
+                    <input 
+                    onChange={handleChange} 
+                    type='text' 
+                    id='firstName' 
+                    value={firstName} 
+                    autoComplete='off' required/>
                     <label htmlFor='firstName'>Prénom</label>
                 </div>
                  <div className='inputBox'>
-                    <input onChange={handleChange} type='text' id='name' value={name} autoComplete='off' required/>
+                    <input 
+                    onChange={handleChange} 
+                    type='text' 
+                    id='name' 
+                    value={name} 
+                    autoComplete='off' 
+                    required/>
                     <label htmlFor='name'>Nom</label>
                 </div>
                  <div className='inputBox'>
-                    <input onChange={handleChange} type='email' id='email' value={email} autoComplete='off' required/>
+                    <input 
+                    onChange={handleChange} 
+                    type='email' 
+                    id='email' 
+                    value={email} 
+                    autoComplete='off' required/>
                     <label htmlFor='email'>Email</label>
                 </div>
                 <div className='inputBox'>
-                    <input onChange={handleChange} type='password' id='password' value={password} autoComplete='off' required/>
+                    <input 
+                    onChange={handleChange} 
+                    type='password' 
+                    id='password' 
+                    value={password} 
+                    autoComplete='off' required/>
                     <label htmlFor='password'>Mot de passe</label>
                 </div>
                 <div className='inputBox'>
-                    <input onChange={handleConfPassword} type='password' id='confirmPassword' value={confPassword} autoComplete='off' required/>
+                    <input 
+                    onChange={handleConfPassword} 
+                    type='password' 
+                    id='confirmPassword' 
+                    value={confPassword} 
+                    autoComplete='off' required/>
                     <label htmlFor='confirmPassword'>Confirmer Mot de passe</label>
                 </div>
                 <div  >
