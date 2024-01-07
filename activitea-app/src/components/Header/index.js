@@ -1,4 +1,4 @@
-import React from 'react'
+import {useRef, useState} from 'react'
 import { Link } from 'react-router-dom'
 import getCurrentUser from '../Login/getCurrentUser'
 import Logout from '../Logout'
@@ -7,6 +7,20 @@ function Header(props) {
     
 //verify wether there is a logged in user
 const currentUser = getCurrentUser()
+const [isMenuVisible, setMenuVisible] = useState(false);
+const currentUserRef = useRef()
+
+const handleMouseOver = () => {
+    setMenuVisible(true);
+};
+
+const handleMouseOut = (event) => {
+    // Check if the mouse is still over the user's name or the menu
+    if (!currentUserRef.current.contains(event.relatedTarget)) {
+        setMenuVisible(false);
+    }
+};
+
 
 //log in management
 const loggedInUser = currentUser === null ? (
@@ -14,9 +28,19 @@ const loggedInUser = currentUser === null ? (
         <h2 className='connexionPosition'><Link className='headerLink' to='/login'>connexion</Link></h2>
     </div>
 ) : (
-    <div>
-        <h2 onClick={props.handleDisplay} className='connexionPosition'>{currentUser.fullname}</h2>
-        <Logout/>
+    <div ref={currentUserRef} onMouseOut={handleMouseOut}>
+        <h3 className='connexionPosition'  onMouseOver={handleMouseOver} onMouseOut={handleMouseOut}>{currentUser.fullname}</h3>
+        {isMenuVisible && (
+                <ul className='visible' onMouseOut={handleMouseOut}>
+                    <li className='connexionPosition headerLink' onClick={props.handleDisplay} >
+                        mon profil
+                    </li>
+                    <li>
+                        <Logout />
+                    </li>
+                </ul>
+            )}
+        
     </div>
 )
 
@@ -31,7 +55,7 @@ const loggedInUser = currentUser === null ? (
                     </h1>
                 </Link>
             </div>
-            <div>
+            <div className='headerCenter'>
                 <h2 className='accroche'>"Ecris moins, postule plus!"</h2>
             </div>
            {loggedInUser}

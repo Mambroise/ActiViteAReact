@@ -70,7 +70,7 @@ function ModalToProfile(props) {
     <div className='modalToProfile'>
         <div className='profileContainer fade-in'>
             <button className='btn float-right' onClick={props.handleDisplay}>X</button>
-            <h2>Votre profile : </h2>
+            <h2>Votre profil : </h2>
             <MyMainData/>
             <div className='modalContainer'>
                 <button onClick={handleClick} id='email' value={email} className={`btnSeeData ${emailTitle}`}>Mes Emails :</button>
