@@ -25,19 +25,17 @@ const handleMouseOut = (event) => {
 //log in management
 const loggedInUser = currentUser === null ? (
     <div>
-        <h2 className='connexionPosition'><Link className='headerLink' to='/login'>connexion</Link></h2>
+        <h3 className='connexionPosition'><Link className='headerLink' to='/login'>connexion</Link></h3>
     </div>
 ) : (
     <div ref={currentUserRef} onMouseOut={handleMouseOut}>
         <h3 className='connexionPosition'  onMouseOver={handleMouseOver} onMouseOut={handleMouseOut}>{currentUser.fullname}</h3>
         {isMenuVisible && (
                 <ul className='visible' onMouseOut={handleMouseOut}>
-                    <li className='connexionPosition headerLink' onClick={props.handleDisplay} >
+                    <li className='connexionPosition' onClick={props.handleDisplay} >
                         mon profil
                     </li>
-                    <li>
-                        <Logout />
-                    </li>
+                    <Logout />
                 </ul>
             )}
         
@@ -47,18 +45,22 @@ const loggedInUser = currentUser === null ? (
   return (
     <header>
         <div className='headerBox'>
-            <div>
-                <Link to='/'>
-                    <h1><span className='titleColor'>A</span>
-                    cti<span>V</span>ite
-                    <span className='titleColor'>A</span>
-                    </h1>
-                </Link>
-            </div>
-            <div className='headerCenter'>
-                <h2 className='accroche'>"Ecris moins, postule plus!"</h2>
-            </div>
-           {loggedInUser}
+            <ul>
+                <li>
+                    <Link to='/'>
+                        <h1><span className='titleColor'>A</span>
+                        cti<span>V</span>ite
+                        <span className='titleColor'>A</span>
+                        </h1>
+                    </Link>
+                </li>
+                <li>
+                    <h2 className='accroche'>"Ecris moins, postule plus!"</h2>
+                </li>
+                <li>
+                {loggedInUser}
+                </li>
+            </ul>
         </div>
     </header>
   )

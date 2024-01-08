@@ -51,74 +51,84 @@ h2{
 
 ul{
   list-style-type: none;
+  display: flex;
+  justify-content: center;
 }
-ul li{
-  align-items: center;
 
-}
 /* HEADER */
 header{
-  background-color: var(--mustard-color);
-  border-bottom: 2px solid var(--black-color);
-  margin-bottom: 30px ;
+  background-color: var(--white-color);
+  box-shadow: 0px 5px 20px -10px var(--mustard-color);
+  margin-bottom: 10px ;
+  border-radius: 0px 0px 20px 20px;
 }
 
 .headerBox{
-  display: flex;
-  justify-content: space-around;
-  max-width: 98%;
-  margin: 0 auto;
-}
-
-.headerCenter{
-background-color: var(--black-color);
-color: var(--white-color);
-width: 60%;
+ width: 50%;
+  margin: auto;
 }
 
 .titleColor{
   color: var(--darker-blue-color);
 }
 
-.headerBoxItem{
-flex: 0 1 10%;
-}
-
 .connexionPosition{
   position: relative;
   width: 100%;
   cursor: pointer;
-}
-
-.headerLink{
-  color:var(--white-color);
-  font-weight: 100;
-  transition: 0.1s;
-}
-
-.headerLink:hover{
-font-weight: 600;
+  margin-left: 20px;
 }
 
 .accroche{
   font-family: 'Dancing Script', cursive;
   font-weight: 200;
-  font-size: 30px;
-}
-
-.invisible{
-display: none;
+  font-size: 20px;
+  margin-top: 18px;
+  padding-right: 20px;
+  color: var(--dark-mustard-color);
+  border-right: 1px solid var(--mustard-color);
 }
 
 .visible{
 display: block;
 position: absolute;
-top: 3%;
+top: 5%;
+margin: auto;
 background-color: var(--light-black-color);
-color: var(--black-color);
-border: 0.5px solid var(--black-color);
-border-radius: 2px;
+border: 1px solid var(--black-color);
 }
+
+.visible li{
+  color: var(--white-color);
+  margin: auto;
+  font-weight: 100;
+  transition: 0.1s;
+}
+.visible li:hover{
+  font-weight: 600;
+}
+
+.popup {
+  position: absolute;
+  top: 0;
+  left: -100%; 
+  width: 100%;
+  background-color: #eee;
+  padding: 30px 5px;
+  animation: slideIn 0.5s forwards;
+}
+
+.popout{
+  position: absolute;
+  top: 0;
+  left: 0; 
+  width: 100%;
+  background-color: #eee;
+  padding: 30px 5px;
+  animation: slideOut 0.5s forwards;
+}
+
+
 /* END HEADER*/
 
 /* MAIN*/
@@ -241,7 +251,7 @@ button[disabled]:hover{
 img{
   width: 100%;
   object-fit: contain;
-  border-radius: 5px;
+  border-radius: 0% 50% 50% 0%;
 }
 
 .landingRightBox h1{
@@ -300,7 +310,7 @@ img{
 .landingGptLink{
   position: absolute;
   top: 80%;
-  right: 5%;
+  right: 10%;
   padding: 8px 30px;
   background-color: var(--white-color);
   border-radius: 5px;
@@ -598,22 +608,14 @@ font-weight: bold;
 
 /*ANIMATIONS*/
 
-@-webkit-keyframes spin {
-  0% {
-    -webkit-transform: rotate(0deg);
-  }
-
-  100% {
-    -webkit-transform: rotate(360deg);
+@keyframes slideIn {
+  to {
+    left: 0;
   }
 }
 
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-
-  100% {
-    transform: rotate(360deg);
+@keyframes slideOut {
+  to {
+    left: -150%;
   }
 }

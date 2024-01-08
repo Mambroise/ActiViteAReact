@@ -7,7 +7,7 @@ const handleClick = () =>{
 }
 
   return (
-    <a className='headerLink' href='/' onClick={handleClick}>Déconnexion</a>
+    <li className='headerLink' href='/' onClick={handleClick}>Déconnexion</li>
   )
 }
 
