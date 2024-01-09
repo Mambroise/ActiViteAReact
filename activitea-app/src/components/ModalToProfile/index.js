@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState,useEffect } from 'react'
 import MyEmails from './ShowData/MyEmails';
 import MyPhones from './ShowData/MyPhone';
 import MyAddresses from './ShowData/MyAddresses';
@@ -24,7 +24,16 @@ function ModalToProfile(props) {
 
     const [showData, setShowData] =useState(dataTable)
     const { email, phone, address, cursus, proExp, language, lifeExp, skill} = dataTable;
+    const [fadeIn,setFadeIn] = useState(false);
 
+    useEffect(() => {
+      setFadeIn(true)
+    
+      return () => {
+        setFadeIn(false)
+      }
+    }, [])
+    
     const handleClick =e=>{
         setShowData(dataTable)
         setShowData({...showData, [e.target.id] : true })
@@ -33,6 +42,9 @@ function ModalToProfile(props) {
     const handleCloseBtn =()=>{
         setShowData(dataTable)
     }
+
+    //fadeIn management
+    const FadeInCss = fadeIn && 'fade-in'
 
     // display email components in tables management
     const emailTable = showData.email && <MyEmails handleCloseBtn={handleCloseBtn} handleCloseWindow={props.handleDisplay}/>
@@ -68,7 +80,7 @@ function ModalToProfile(props) {
 
     return (
     <div className='modalToProfile'>
-        <div className='profileContainer fade-in'>
+        <div className={`profileContainer ${FadeInCss}`}>
             <button className='btn float-right' onClick={props.handleDisplay}>X</button>
             <h2>Votre profil : </h2>
             <MyMainData/>

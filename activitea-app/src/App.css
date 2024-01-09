@@ -98,31 +98,31 @@ background-color: var(--light-black-color);
 border: 1px solid var(--black-color);
 }
 
-.visible li{
+.visible li, .connect{
   color: var(--white-color);
-  margin: auto;
+
   font-weight: 100;
   transition: 0.1s;
 }
-.visible li:hover{
+.visible li:hover, .connect:hover{
   font-weight: 600;
 }
 
 .popup {
   position: absolute;
   top: 0;
-  left: -100%; 
-  width: 100%;
+  left: -150%; 
+  width: 60%;
   background-color: #eee;
   padding: 30px 5px;
-  animation: slideIn 0.5s forwards;
+  animation: slideIn 1s forwards;
 }
 
 .popout{
   position: absolute;
   top: 0;
   left: 0; 
-  width: 100%;
+  width: 60%;
   background-color: #eee;
   padding: 30px 5px;
   animation: slideOut 0.5s forwards;
@@ -134,7 +134,7 @@ border: 1px solid var(--black-color);
 /* MAIN*/
 main{
   display: flex;
-  width: 80%;
+  width: 90%;
   margin: 0px auto;
   padding-top: 5%;
   justify-content:center;
@@ -180,6 +180,14 @@ main{
 
 .margin-top{
   margin-top: 20px;
+}
+
+.border{
+  border-radius: 5px;
+  box-shadow:
+   0px 0px 2px var(--black-color) inset,
+  1px 1px 2px var(--black-color),
+  -1px -1px 1px var(--black-color);
 }
 
 hr{
@@ -261,7 +269,7 @@ img{
 /*signup button*/
 .landingSignupLink{
   position: absolute;
-  top: 55%;
+  top: 65%;
   left: 10%;
   width: 200px;
   padding: 80px 0px;
@@ -269,7 +277,7 @@ img{
   text-align: center;
   background-color: var(--white-color);
   border-radius: 100px;
-  color: var(--black-color);
+  color: var(--mustard-color);
   font-size: 30px;
 }
 
@@ -286,12 +294,12 @@ img{
 /*Landing go button*/
 .landingAddLink{
   position: absolute;
-  top: 80%;
+  top: 90%;
   left: 5%;
   padding: 8px 30px;
   background-color: var(--white-color);
   border-radius: 5px;
-  color: var(--black-color);
+  color: var(--mustard-color);
   font-size: 25px;
   font-weight: bold;
 }
@@ -309,12 +317,12 @@ img{
 /*Landing Gpt button*/
 .landingGptLink{
   position: absolute;
-  top: 80%;
+  top: 90%;
   right: 10%;
   padding: 8px 30px;
   background-color: var(--white-color);
   border-radius: 5px;
-  color: var(--black-color);
+  color: var(--mustard-color);
   font-size: 25px;
   font-weight: bold;
 }
@@ -458,8 +466,8 @@ font-weight: bold;
 
 /*display message*/
 .errorMsg{
-  width: 100%;
-  padding: 10px 0px;
+  width: 98%;
+  padding: 10px 5px;
   margin: 5px auto;
   text-align: center;
   color: var(--red-color);
@@ -470,8 +478,16 @@ font-weight: bold;
   -1px -1px 1px var(--red-color);
 }
 
+.warningMsg{
+  width: 98%;
+  padding: 10px 5px;
+  margin: 5px auto;
+  text-align: center;
+  color: orange;
+}
+
 .successMsg{
-  width: 100%;
+  width: 98%;
   padding: 15px 0px;
   margin: 5px auto;
   text-align: center;
@@ -500,16 +516,16 @@ font-weight: bold;
 .profileContainer{
   margin: auto;
   padding: 1%;
-  width: 35%;
+  width: 40%;
   min-height: 90%;
   background-color: var(--white-color);
   border-radius: 10px;
   opacity: 0;
-  transform: translateY(-20px);
-  transition: opacity 1s ease, transform 1s ease;
+  transform: translateY(-80px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
 }
 
-.profileContainer.fade-in {
+.fade-in {
   opacity: 1;
   transform: translateY(0);
 }

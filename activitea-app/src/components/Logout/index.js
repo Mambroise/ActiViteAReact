@@ -4,10 +4,11 @@ function Logout() {
 
 const handleClick = () =>{
     localStorage.removeItem('currentUser')
+    window.location.reload();
 }
 
   return (
-    <li className='headerLink' href='/' onClick={handleClick}>Déconnexion</li>
+    <li className=' align-center' href='/' onClick={handleClick}>Déconnexion</li>
   )
 }
 

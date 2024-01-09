@@ -27,16 +27,20 @@ function isExistData() {
     setHasNoData(null)
     setHasData(response.data)
     if (response.data !== null && response.data.trim() !== '') {
-      setIsVisible(true)
-      setPopUp(true)
+      setTimeout(() => {
+        setIsVisible(true)
+        setPopUp(true)
+      }, 1000);
     }
   })
   .catch(error=>{
     setHasNoData(error.response.data)
     setHasData(null)
     if (error.response.data !== ' ') {
-      setIsVisible(true)
-      setPopUp(true)
+      setTimeout(() => {
+        setIsVisible(true)
+        setPopUp(true)
+      }, 1000);
     }
   })
 }
@@ -56,14 +60,14 @@ const signUpButton = currentUser ? <Link className='landingAddLink' to='/registe
 const gptButton = currentUser && <Link  className='landingGptLink' to='/addworkad'>GPT</Link>
 
 // popup message css handling 
-const modalCss = hasData !== null ? 'successMsg' : 'errorMsg'
+const modalCss = hasData !== null ? 'warningMsg' : 'errorMsg'
 
 // popup div css handling 
 const popupCss = popUp ? 'popup' : 'popout'
 
 // hasNoData and hasData message modal handling
 const warningMsg = isVisible && 
-<div className={popupCss}>
+<div className={`align-center border ${popupCss}`}>
   <div className={modalCss}>{hasNoData}{hasData}</div>
   <button className='btn' onClick={handleClick}>Ok</button>
 </div>

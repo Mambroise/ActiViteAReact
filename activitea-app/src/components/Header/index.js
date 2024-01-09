@@ -25,15 +25,15 @@ const handleMouseOut = (event) => {
 //log in management
 const loggedInUser = currentUser === null ? (
     <div>
-        <h3 className='connexionPosition'><Link className='headerLink' to='/login'>connexion</Link></h3>
+        <h3 className='connexionPosition connect'><Link  to='/login'>connexion</Link></h3>
     </div>
 ) : (
     <div ref={currentUserRef} onMouseOut={handleMouseOut}>
         <h3 className='connexionPosition'  onMouseOver={handleMouseOver} onMouseOut={handleMouseOut}>{currentUser.fullname}</h3>
         {isMenuVisible && (
                 <ul className='visible' onMouseOut={handleMouseOut}>
-                    <li className='connexionPosition' onClick={props.handleDisplay} >
-                        mon profil
+                    <li className='connexionPosition align-center' onClick={props.handleDisplay} >
+                        Mon profil
                     </li>
                     <Logout />
                 </ul>
