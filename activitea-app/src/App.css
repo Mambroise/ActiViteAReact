@@ -28,6 +28,7 @@
 
 body{
   position: relative;
+  margin-top: 120px;
   color: var(--black-color);
   background-color: var(--white-color);
 }
@@ -57,9 +58,12 @@ ul{
 
 /* HEADER */
 header{
+  position: fixed;
+  top: 0;
+  z-index: 1000;
+  width: 100%;
   background-color: var(--white-color);
   box-shadow: 0px 5px 20px -10px var(--mustard-color);
-  margin-bottom: 10px ;
   border-radius: 0px 0px 20px 20px;
 }
 
@@ -92,7 +96,7 @@ header{
 .visible{
 display: block;
 position: absolute;
-top: 5%;
+top: 52%;
 margin: auto;
 background-color: var(--light-black-color);
 border: 1px solid var(--black-color);
@@ -100,7 +104,6 @@ border: 1px solid var(--black-color);
 
 .visible li, .connect{
   color: var(--white-color);
-
   font-weight: 100;
   transition: 0.1s;
 }
@@ -108,44 +111,19 @@ border: 1px solid var(--black-color);
   font-weight: 600;
 }
 
-.popup {
-  position: absolute;
-  top: 0;
-  left: -150%; 
-  width: 60%;
-  background-color: #eee;
-  padding: 30px 5px;
-  animation: slideIn 1s forwards;
-}
-
-.popout{
-  position: absolute;
-  top: 0;
-  left: 0; 
-  width: 60%;
-  background-color: #eee;
-  padding: 30px 5px;
-  animation: slideOut 0.5s forwards;
-}
-
-
 /* END HEADER*/
 
 /* MAIN*/
-main{
+.landingBg{
   display: flex;
+  justify-content:center;
   width: 90%;
   margin: 0px auto;
   padding-top: 5%;
-  justify-content:center;
   gap: 10px;
   min-height:650px;
-  background-size: cover;
 }
 
-.landinBg{
-  width: 100%;
-}
 
 .container{
   width: 80%;
@@ -185,14 +163,15 @@ main{
 .border{
   border-radius: 5px;
   box-shadow:
-   0px 0px 2px var(--black-color) inset,
-  1px 1px 2px var(--black-color),
-  -1px -1px 1px var(--black-color);
+   0px 0px 2px var(--mustard-color) inset,
+  1px 1px 2px var(--mustard-color),
+  -1px -1px 1px var(--mustard-color);
 }
 
 hr{
   border: 1px solid var(--black-color);
 }
+
 
 /*Buttons*/
 .btn{
@@ -277,7 +256,7 @@ img{
   text-align: center;
   background-color: var(--white-color);
   border-radius: 100px;
-  color: var(--mustard-color);
+  color: var(--black-color);
   font-size: 30px;
 }
 
@@ -295,7 +274,7 @@ img{
 .landingAddLink{
   position: absolute;
   top: 90%;
-  left: 5%;
+  left: 30%;
   padding: 8px 30px;
   background-color: var(--white-color);
   border-radius: 5px;
@@ -317,8 +296,8 @@ img{
 /*Landing Gpt button*/
 .landingGptLink{
   position: absolute;
-  top: 90%;
-  right: 10%;
+  top: 47%;
+  left: 42%;
   padding: 8px 30px;
   background-color: var(--white-color);
   border-radius: 5px;
@@ -336,6 +315,38 @@ img{
   -o-transition: 0.2s;
   transition: 0.2s;
 }
+
+.popup {
+  position: absolute;
+  top: 20%;
+  left: -150%; 
+  width: 60%;
+  background-color: #eee;
+  padding: 30px 5px;
+  animation: slideIn 1s forwards;
+}
+
+.popout{
+  position: absolute;
+  top: 20%;
+  left: 0; 
+  width: 60%;
+  background-color: #eee;
+  padding: 30px 5px;
+  animation: slideOut 0.5s forwards;
+}
+
+.proInfoUser{
+  position: relative;
+  width: 60%;
+  margin: 10px auto;
+  padding: 8px 0;
+  text-align: center;
+  font-weight: 600;
+  background-color: #1f56edc0;
+  color: var(--white-color);
+  border-radius: 10px;
+  }
 
 /*forms*/
 .slContainer{
@@ -479,15 +490,16 @@ font-weight: bold;
 }
 
 .warningMsg{
-  width: 98%;
+  width: 100%;
   padding: 10px 5px;
   margin: 5px auto;
   text-align: center;
-  color: orange;
+  color: var(--black-color);
+  font-weight: bold;
 }
 
 .successMsg{
-  width: 98%;
+  width: 100%;
   padding: 15px 0px;
   margin: 5px auto;
   text-align: center;
@@ -626,7 +638,7 @@ font-weight: bold;
 
 @keyframes slideIn {
   to {
-    left: 0;
+    left: 15%;
   }
 }
 

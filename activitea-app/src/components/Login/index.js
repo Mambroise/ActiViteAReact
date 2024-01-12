@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { axiosPost } from '../CommunFunctions/axiosFunction'
+import axios from 'axios'
 
 function Login() {
     const data = {
@@ -19,9 +19,18 @@ function Login() {
         setLoginData({...loginData, [e.target.id] : e.target.value});
     } 
 
+    const bearer = () => {
+        return {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Login'
+          }
+        };
+      };
+
     const handleSubmit =e=> {
            e.preventDefault()
-           axiosPost("login", loginData)
+           axios.post('http://localhost:8080/login', loginData, bearer() )
             .then((response) => {
             console.log("Success login");
             setError('')
@@ -34,6 +43,7 @@ function Login() {
             })
             .catch((error) => {
             setError(error.message);
+            console.log(error);
             setLoginData(data);
             });
     }
