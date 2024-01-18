@@ -256,6 +256,7 @@ img{
   text-align: center;
   background-color: var(--white-color);
   border-radius: 100px;
+  border-color: var(--white-color);
   color: var(--black-color);
   font-size: 30px;
 }

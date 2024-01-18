@@ -6,18 +6,23 @@ import brain from '../../image/aiBrain.png';
 import InvalidJwt from '../CommunFunctions/invalidJwt';
 
 function Landing() {
-  // verify whether there is a logged-in user
-  const currentUser = getCurrentUser();
-
+  
+  
   const [hasData, setHasData] = useState(null);
   const [hasNoData, setHasNoData] = useState(null);
   const [isVisible, setIsVisible] = useState(false);
   const [popUp, setPopUp] = useState(false);
   const [invalidJwt, setInvalidJwt] = useState(false);
 
+  // verify whether there is a logged-in user
+  const currentUser = getCurrentUser();
+  
   useEffect(() => {
     currentUser && isExistData();
   }, []);
+  
+  //jwt invalid logout handling
+  const logout = invalidJwt && <InvalidJwt/>
 
   // check if data has been saved by the user and get the message
   function isExistData() {
@@ -33,13 +38,10 @@ function Landing() {
         }
       })
       .catch((error) => {
-        console.log(error.response.data.message);
         if (error.response.data.message == 'Invalid JWT token') {
-          console.log("dans le if");
           setInvalidJwt(true)
-          
         } else { 
-          setHasNoData(error.response.data.message);
+          setHasNoData(error.response.data);
           setHasData(null);
           if (error.response.data !== ' ') {
             setTimeout(() => {
@@ -78,7 +80,7 @@ function Landing() {
   // popup div CSS handling
   const popupCss = popUp ? 'popup' : 'popout';
 
-  // hasNoData and hasData message modal handling
+  // hasNoData and hasData message popup handling
   const warningMsg =
     isVisible && (
       <div className={`align-center border ${popupCss}`}>
@@ -89,13 +91,10 @@ function Landing() {
       </div>
     );
 
-    //jwt invalid logout handling
-    const logout = invalidJwt && <InvalidJwt/>
-
   return (
     <main>
-      {logout}
       <div className='proInfoUser'>Inscrivez-vous et ajoutez quelques informations personnelles.</div>
+      {logout}
       <div className='landingBg'>
         <div className='landingLeftBox'>
           <img src={brain} alt='cerveau de IA' />

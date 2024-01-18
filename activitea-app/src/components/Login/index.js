@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import axios from 'axios'
+import {axiosPostLogAndSign} from '../CommunFunctions/axiosFunction'
 
 function Login() {
     const data = {
@@ -26,13 +26,12 @@ function Login() {
             'Authorization': 'Login'
           }
         };
-      };
+    };
 
     const handleSubmit =e=> {
            e.preventDefault()
-           axios.post('http://localhost:8080/login', loginData, bearer() )
+           axiosPostLogAndSign('login',loginData)
             .then((response) => {
-            console.log("Success login");
             setError('')
             setSuccess("Bienvenue " + response.data.fullname);
             localStorage.setItem("currentUser", JSON.stringify(response.data));
@@ -42,8 +41,7 @@ function Login() {
             }, 2000);
             })
             .catch((error) => {
-            setError(error.message);
-            console.log(error);
+            setError('Cet utilisateur est introuvable');
             setLoginData(data);
             });
     }

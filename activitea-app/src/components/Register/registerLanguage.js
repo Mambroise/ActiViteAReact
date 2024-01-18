@@ -5,7 +5,7 @@ import levels from './../../languageLevel.json';
 import languages from './../../languages.json';
 
 
-function RegisterLanguage() {
+function RegisterLanguage(props) {
 
    const languageData = {
     language : '',
@@ -29,7 +29,6 @@ const handleChange = e =>{
 }
 
 const handleSubmit =e=>{
-    console.log(selectedLanguage);
     e.preventDefault();
     axiosPost("language", selectedLanguage)
     .then((response) => {
@@ -40,8 +39,12 @@ const handleSubmit =e=>{
         box.current.classList.add('blurry')
     })
     .catch((error) => {
-        setError(error.message);
-        setSelectedLanguage(languageData);
+        if (error.response.data.message == 'Invalid JWT token') {
+            props.handleVisible()
+          } else { 
+              setError(error.response.data.message);
+              setSelectedLanguage(languageData);
+          }
     });
 }
 

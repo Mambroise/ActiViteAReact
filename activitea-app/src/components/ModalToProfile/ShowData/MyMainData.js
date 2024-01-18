@@ -1,9 +1,10 @@
 import React, { useEffect,useState,useRef } from 'react'
 import { axiosGet, axiosPut } from '../../CommunFunctions/axiosFunction'
 import getCurrentUser from '../../Login/getCurrentUser'
+import InvalidJwt from '../../CommunFunctions/invalidJwt'
 
 
-function MyMainData() {
+function MyMainData(props) {
 
     const userData = {
         gender: '',
@@ -28,12 +29,13 @@ const { gender, name, firstName, email, password } = user;
 const [changePassword, setChangePassword] =useState(passwordData)
 const [confPassword, setConfPassword] =useState('')
 const { oldPassword, newPassword } = changePassword;
-const currentUserId = getCurrentUser().id;
+const currentUser = getCurrentUser();
 const [ displayPasswordUpdate, setDisplayPasswordUpdate ] = useState(false);
 const [ error,setError ] = useState(null);
 const [ errorPwd,setErrorPwd ] = useState(null);
 const [ success,setSuccess ] = useState(null);
 const [ successPwd,setSuccessPwd ] = useState(null);
+const [invalidJwt, setInvalidJwt] = useState(false);
 const [ disable,setDisable ] = useState(true)
 const [man,setMan] = useState(false);
 const [woman,setWoman] = useState(false);
@@ -42,10 +44,18 @@ const input = useRef();
 //user data display
 useEffect(()=>{
     getUser()
+    return () => {
+        setTimeout(() => {   
+            setInvalidJwt(false);
+        }, 2000);
+      }
 },[])
 
+//jwt invalid logout handling
+const logout = invalidJwt && <InvalidJwt/>
+
 const getUser = () =>{
-    axiosGet('user',currentUserId)
+    axiosGet('user',currentUser.id)
     .then(response=>{
         setUser(response.data)
         if (gender ==='homme') {
@@ -57,7 +67,15 @@ const getUser = () =>{
         }
     })
     .catch(error=>{
-        console.log(error.message);
+        if (error.response.data.message == 'Invalid JWT token') {
+            setInvalidJwt(true)
+            setTimeout(() => {  
+                props.handleCloseWindow()
+                window.location.reload();
+            }, 200);
+        } else { 
+            setError(error.response.data.message);
+        }
     })
 }
 
@@ -93,7 +111,7 @@ const handleUpdate = () =>{
 const handleChange = e =>{
     setUser({...user,
         [e.target.id] : e.target.value,
-        id : currentUserId, 
+        id : currentUser.id, 
         role :[
             {
                 id: 1,
@@ -121,8 +139,16 @@ const handleSubmitUser = e => {
         }, 1500);
     })
     .catch((error) => {
-        setError(error.message);
-        getUser();
+        if (error.response.data.message == 'Invalid JWT token') {
+            setInvalidJwt(true)
+            setTimeout(() => {  
+                props.handleCloseWindow()
+                window.location.reload();
+            }, 200);
+          } else { 
+            setError(error.response.data.message);
+            getUser();
+          }
     });
 }
 
@@ -138,8 +164,7 @@ const handleChangeConfPassword = e => {
 const handleSubmitPassword = e => {
     e.preventDefault();   
     if (changePassword.newPassword === confPassword) {
-        console.log(changePassword.newPassword);
-        axiosPut("updatepassword",currentUserId, changePassword)
+        axiosPut("updatepassword",currentUser.id, changePassword)
         .then(response => {
             console.log(response.data);
             setError(null)
@@ -150,8 +175,16 @@ const handleSubmitPassword = e => {
             }, 4000);
         })
         .catch(error =>{
-            console.log(error);
-            setErrorPwd(error.response.data)
+            if (error.response.data.message == 'Invalid JWT token') {
+                setInvalidJwt(true)
+                setTimeout(() => {  
+                    props.handleCloseWindow()
+                    window.location.reload();
+                }, 200);
+              } else { 
+                console.log(error);
+                setErrorPwd(error.response.data.message)
+              }
         })
     } else {
         setErrorPwd("Les deux nouveaux mots de passe doivent correspondre")
@@ -189,6 +222,7 @@ const modify =  disable ? <button  onClick={handleUpdate} className='btnAddData 
 const displayBlock = displayPasswordUpdate && (   
     <>
         <div className='updatePasswordFormContainer margin-top'>
+            {logout}
             {successPwdMsg}
             {errorPwdMsg}
              <form onSubmit={handleSubmitPassword}>

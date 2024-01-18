@@ -6,7 +6,7 @@ const currentUser = getCurrentUser()
 let token = null
 if (currentUser !== null) {
   token = currentUser.token
-  console.log(token);
+
 }
 
 // function return the bearer to check security token
@@ -19,15 +19,29 @@ const bearer = () => {
   };
 };
 
+// function return the bearer to check security token
+const bearerNoToken = () => {
+  return {
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Login'
+    }
+  };
+};
 
 
 //back End URL
 const url = 'http://localhost:8080/'
 
 //post data function
+async function axiosPostLogAndSign(destination, data) {
+    return await axios.post(url+destination,data, bearerNoToken())
+}
+
+//post data function
 async function axiosPost(destination, data) {
     return await axios.post(url+destination,data, bearer())
-  }
+}
 
 //get data function
 async function axiosGet(origin, userId) {
@@ -46,7 +60,7 @@ async function axiosDelete(destination, dataId) {
 
 //gpt API function
 async function axiosGpt(prompt) {
-    return await axios.post(`${url}api/generate-text`, prompt);
+    return await axios.post(`${url}api/generate-text`, prompt, bearer());
 }
 
-export {axiosPost,axiosGet,axiosPut,axiosDelete,axiosGpt}
+export {axiosPost,axiosGet,axiosPut,axiosDelete,axiosGpt,axiosPostLogAndSign}

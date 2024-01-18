@@ -7,6 +7,7 @@ import levels from './../../../languageLevel.json';
 import editIcon from '../../../image/editIcon.png'
 import deleteIcon from '../../../image/deleteIcon.png'
 import { useNavigate } from 'react-router-dom'
+import InvalidJwt from '../../CommunFunctions/invalidJwt';
 
 
 function MyLanguage(props) {
@@ -19,11 +20,12 @@ function MyLanguage(props) {
        }
 
 
-const currentUserId = getCurrentUser().id;
+const currentUser = getCurrentUser();
 const [ languageTable, setLanguageTable ] = useState([]);
 const [ displayLanguageUpdate, setDisplayLanguageUpdate ] = useState(false);
 const [ error,setError ] = useState(null);
 const [ success,setSuccess ] = useState(null);
+const [invalidJwt, setInvalidJwt] = useState(false);
 const navigate = useNavigate()
 //udapte declaration part
 const [ selectedLanguage,setSelectedLanguage ] = useState(languageData);
@@ -37,14 +39,23 @@ useEffect(()=>{
     getLanguage()
 },[])
 
+//jwt invalid logout handling
+const logout = invalidJwt && <InvalidJwt/>
+
 const getLanguage = () =>{
-    axiosGet('language',currentUserId)
+    axiosGet('language',currentUser.id)
     .then(response=>{
         setLanguageTable(response.data)
-        console.log("coucou");
     })
     .catch(error=>{
-        setError(error.message)
+      if (error.response.data.message == 'Invalid JWT token') {
+            setInvalidJwt(true)
+            setTimeout(() => {  
+                props.handleCloseWindow()
+            }, 2000);
+        } else { 
+            setError(error.response.data.message);
+        }
     })
 }
 
@@ -60,13 +71,20 @@ const handleDelete = e => {
             setSuccess(response.data)
         })
         .catch(error=>{
-            setError(error.message)
             setSuccess(null)
+            if (error.response.data.message == 'Invalid JWT token') {
+            setInvalidJwt(true)
+            setTimeout(() => {  
+                props.handleCloseWindow()
+            }, 2000);
+            } else { 
+            setError(error.response.data.message);
+           }
         })
     }
 }
 
-//*********  update managemenet*********//
+//*********  update management*********//
 //email input update management
 const handleUpdate = e => {
     setSuccess(null)
@@ -76,7 +94,7 @@ const handleUpdate = e => {
         id : ToUpdate.id,
         language : ToUpdate.language,
         stars : ToUpdate.stars,
-        userId : currentUserId
+        userId : currentUser.id
     })
     setDisplayLanguageUpdate(true);
 }
@@ -88,13 +106,12 @@ const handleChange = e =>{
         [e.target.id] : e.target.value,
         [e.target.id] : e.target.value,
         [e.target.id] : e.target.value,
-        userId : currentUserId 
+        userId : currentUser.id 
     })
 }
 
 //submit update email
 const handleSubmit = e => {
-    console.log();
     e.preventDefault();
     axiosPut("language",selectedLanguage.id, selectedLanguage)
     .then((response) => {
@@ -108,7 +125,15 @@ const handleSubmit = e => {
         }, 1500);
     })
     .catch((error) => {
-        setError(error.message);
+        setSuccess(null)
+        if (error.response.data.message == 'Invalid JWT token') {
+            setInvalidJwt(true)
+            setTimeout(() => {  
+                props.handleCloseWindow()
+            }, 2000);
+        } else { 
+            setError(error.response.data.message);
+        }
     });
 }
 
@@ -169,6 +194,7 @@ const displayBlock = displayLanguageUpdate && (
 
   return (
     <div className='align-center margin-auto'>
+        {logout}
         {successMsg}
         {errorMsg}
         <button  onClick={props.handleCloseBtn} className='btnAddData float-right'>Fermer</button>

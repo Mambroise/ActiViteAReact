@@ -2,7 +2,8 @@ import React, {useState, useRef} from 'react'
 import { axiosPost } from '../CommunFunctions/axiosFunction'
 import getCurrentUser from '../Login/getCurrentUser'
 
-function RegisterProExp() {
+function RegisterProExp(props) {
+
     const proExpData = {
         company : '',
         title : '',
@@ -36,8 +37,12 @@ function RegisterProExp() {
             box.current.classList.add('blurry')
         })
         .catch((error) => {
-            setError(error.message);
-            setProExp(proExpData);
+            if (error.response.data.message == 'Invalid JWT token') {
+                props.handleVisible()
+              } else {
+                  setError(error.response.data.message);
+                  setProExp(proExpData);
+              }
         });
     }
     

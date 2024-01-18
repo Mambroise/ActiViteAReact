@@ -6,6 +6,7 @@ import editIcon from '../../../image/editIcon.png'
 import deleteIcon from '../../../image/deleteIcon.png'
 import { useNavigate } from 'react-router-dom'
 import { emailValidation } from '../../Validation'
+import InvalidJwt from '../../CommunFunctions/invalidJwt'
 
 
 
@@ -17,12 +18,13 @@ function MyEmails(props) {
         userId : ''
        }
 
-const currentUserId = getCurrentUser().id;
+const currentUser = getCurrentUser();
 const [ emailTable, setEmailTable ] = useState([]);
 const [ displayEmailUpdate, setDisplayEmailUpdate ] = useState(false);
 const [ validation,setValidation ] = useState(false)
 const [ error,setError ] = useState(null);
 const [ success,setSuccess ] = useState(null);
+const [invalidJwt, setInvalidJwt] = useState(false);
 const navigate = useNavigate()
 //udapte declaration part
 const [ email,setEmail ] = useState(proEmailData);
@@ -35,22 +37,29 @@ useEffect(()=>{
  getEmails()
 },[])
 
+//jwt invalid logout handling
+const logout = invalidJwt && <InvalidJwt/>
 
 function getEmails(){
-    axiosGet('proemail',currentUserId)
+    axiosGet('proemail',currentUser.id)
     .then(response=>{
         setEmailTable(response.data)
     })
     .catch(error=>{
-        setError(error.message)
+        if (error.response.data.message == 'Invalid JWT token') {
+            props.handleVisible()
+            setTimeout(() => {  
+                props.handleCloseWindow()
+            }, 2000);
+        } else { 
+            setError(error.response.data.message);
+        }
     })
 }
 
 //emails delete management
 function handleDelete(e) {
-
-    const userConfirmed = window.confirm("Etes vous sur de vouloir effacer cet email ?");
-    
+    const userConfirmed = window.confirm("Etes vous sur de vouloir effacer cet email ?");   
     if (userConfirmed) {
         axiosDelete('proemail', e.target.id)
         .then(response=>{
@@ -59,8 +68,15 @@ function handleDelete(e) {
             setSuccess(response.data)
         })
         .catch(error=>{
-            setError(error.message)
-            setSuccess(null)
+            if (error.response.data.message == 'Invalid JWT token') {
+                setInvalidJwt(true)
+                setTimeout(() => {  
+                    props.handleCloseWindow()  
+                }, 200);
+            } else { 
+                setError(error.response.data.message);
+                setSuccess(null)
+            }
         })
     }
 }
@@ -74,7 +90,7 @@ const handleUpdate = e => {
     setEmail({
         id : emailToUpdate.id,
         proEmail : emailToUpdate.proEmail,
-        userId : currentUserId
+        userId : currentUser.id
     })
     setDisplayEmailUpdate(true);
 }
@@ -83,7 +99,7 @@ const handleUpdate = e => {
 const handleChange = e =>{
     setEmail({...email,
         proEmail : e.target.value,
-        userId : currentUserId  
+        userId : currentUser.id  
     })
 }
 
@@ -119,7 +135,14 @@ const handleSubmit = e => {
         }, 1500);
     })
     .catch((error) => {
-        setError(error.message);
+        if (error.response.data.message == 'Invalid JWT token') {
+            setInvalidJwt(true)
+            setTimeout(() => {  
+                props.handleCloseWindow()
+            }, 200);
+        } else { 
+            setError(error.response.data.message);
+        }
     });
 }
 
@@ -162,6 +185,7 @@ const displayEmailBlock = displayEmailUpdate && (
 )
   return (
     <div className='align-center margin-auto'>
+        {logout}
         {successMsg}
         {errorMsg}
         <button  onClick={props.handleCloseBtn} className='btnAddData float-right'>Fermer</button>

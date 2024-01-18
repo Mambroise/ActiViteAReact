@@ -8,6 +8,8 @@ import MyLanguage from './ShowData/MyLanguage';
 import MyLifeExp from './ShowData/MyLifeExp';
 import MySkill from './ShowData/MySkill';
 import MyMainData from './ShowData/MyMainData';
+import { useNavigate } from 'react-router-dom'
+import InvalidJwt from '../CommunFunctions/invalidJwt'
 
 function ModalToProfile(props) {
 
@@ -25,29 +27,37 @@ function ModalToProfile(props) {
     const [showData, setShowData] =useState(dataTable)
     const { email, phone, address, cursus, proExp, language, lifeExp, skill} = dataTable;
     const [fadeIn,setFadeIn] = useState(false);
-
-    useEffect(() => {
-      setFadeIn(true)
+    const [invalidJwt, setInvalidJwt] = useState(false);
+    const navigate = useNavigate()
     
-      return () => {
-        setFadeIn(false)
-      }
+    const isVisible = () =>{
+        navigate("/");
+        setInvalidJwt(true);
+    }
+    
+    useEffect(() => {
+        setFadeIn(true)
+        
+        return () => {
+            setFadeIn(false)
+        }
     }, [])
     
     const handleClick =e=>{
         setShowData(dataTable)
         setShowData({...showData, [e.target.id] : true })
     }
-
+    
     const handleCloseBtn =()=>{
         setShowData(dataTable)
     }
+    const logout = invalidJwt && <InvalidJwt/>
 
     //fadeIn management
     const FadeInCss = fadeIn && 'fade-in'
 
     // display email components in tables management
-    const emailTable = showData.email && <MyEmails handleCloseBtn={handleCloseBtn} handleCloseWindow={props.handleDisplay}/>
+    const emailTable = showData.email && <MyEmails handleCloseBtn={handleCloseBtn} handleCloseWindow={props.handleDisplay} handleVisible={isVisible}/>
     const emailTitle = showData.email && "align-left"
 
     // display phone components in tables management
@@ -81,9 +91,10 @@ function ModalToProfile(props) {
     return (
     <div className='modalToProfile'>
         <div className={`profileContainer ${FadeInCss}`}>
+            {logout}
             <button className='btn float-right' onClick={props.handleDisplay}>X</button>
             <h2>Votre profil : </h2>
-            <MyMainData/>
+            <MyMainData handleCloseWindow={props.handleDisplay}/>
             <div className='modalContainer'>
                 <button onClick={handleClick} id='email' value={email} className={`btnSeeData ${emailTitle}`}>Mes Emails :</button>
                 {emailTable}

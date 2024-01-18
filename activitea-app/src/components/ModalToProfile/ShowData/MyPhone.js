@@ -6,7 +6,7 @@ import editIcon from '../../../image/editIcon.png'
 import deleteIcon from '../../../image/deleteIcon.png'
 import { useNavigate } from 'react-router-dom'
 import { phoneValidation } from '../../Validation'
-
+import InvalidJwt from '../../CommunFunctions/invalidJwt';
 
 function MyPhones(props) {
 
@@ -17,12 +17,13 @@ function MyPhones(props) {
        }
 
 
-const currentUserId = getCurrentUser().id;
+const currentUser = getCurrentUser();
 const [ phoneTable, setPhoneTable ] = useState([]);
 const [ displayPhoneUpdate, setDisplayPhoneUpdate ] = useState(false);
 const [ error,setError ] = useState(null);
 const [ success,setSuccess ] = useState(null);
-const [ validation,setValidation ] = useState(false)
+const [ validation,setValidation ] = useState(false);
+const [invalidJwt, setInvalidJwt] = useState(false);
 const navigate = useNavigate()
 //udapte declaration part
 const [ phone,setPhone ] = useState(proPhoneData);
@@ -36,13 +37,23 @@ useEffect(()=>{
  getPhones()
 },[])
 
+//jwt invalid logout handling
+const logout = invalidJwt && <InvalidJwt/>
+
 const getPhones = () =>{
-    axiosGet('prophone',currentUserId)
+    axiosGet('prophone',currentUser.id)
     .then(response=>{
         setPhoneTable(response.data)
     })
     .catch(error=>{
-        setError(error.message)
+        if (error.response.data.message == 'Invalid JWT token') {
+            setInvalidJwt(true)
+            setTimeout(() => {  
+                props.handleCloseWindow()
+            }, 2000);
+        } else { 
+            setError(error.response.data.message);
+        }
     })
 }
 
@@ -58,8 +69,15 @@ const handleDelete = e => {
             setSuccess(response.data)
         })
         .catch(error=>{
-            setError(error.message)
             setSuccess(null)
+            if (error.response.data.message == 'Invalid JWT token') {
+                setInvalidJwt(true)
+                setTimeout(() => {  
+                    props.handleCloseWindow()
+                }, 2000);
+            } else { 
+                setError(error.response.data.message);
+            }
         })
     }
 }
@@ -74,7 +92,7 @@ const handleUpdate = e => {
     setPhone({
         id : phoneToUpdate.id,
         phone : phoneToUpdate.phone,
-        userId : currentUserId
+        userId : currentUser.id
     })
     setDisplayPhoneUpdate(true);
 }
@@ -83,13 +101,12 @@ const handleUpdate = e => {
 const handleChange = e =>{
     setPhone({...phone,
         phone : e.target.value,
-        userId : currentUserId  
+        userId : currentUser.id  
     })
 }
 
   //Validation, checking email format
   useEffect(() => {
-    console.log(phone.phone.length);
     if (phone.phone.length > 0) {
         if (phoneValidation(phone.phone)) {
             setError(null)
@@ -119,7 +136,15 @@ const handleSubmit = e => {
         }, 1500);
     })
     .catch((error) => {
-        setError(error.message);
+        setSuccess(null)
+        if (error.response.data.message == 'Invalid JWT token') {
+            setInvalidJwt(true)
+            setTimeout(() => {  
+                props.handleCloseWindow()
+            }, 2000);
+        } else { 
+            setError(error.response.data.message);
+        }
     });
 }
 
@@ -161,6 +186,7 @@ const displayPhoneBlock = displayPhoneUpdate && (
 
   return (
     <div className='align-center margin-auto'>
+        {logout}
         {successMsg}
         {errorMsg}
         <button  onClick={props.handleCloseBtn} className='btnAddData float-right'>Fermer</button>

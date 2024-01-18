@@ -5,7 +5,7 @@ import ifNoData from '../../CommunFunctions/ifNoDataFunction'
 import editIcon from '../../../image/editIcon.png'
 import deleteIcon from '../../../image/deleteIcon.png'
 import { useNavigate } from 'react-router-dom'
-
+import InvalidJwt from '../../CommunFunctions/invalidJwt';
 
 function MySkill(props) {
 
@@ -16,11 +16,12 @@ function MySkill(props) {
        }
 
 
-const currentUserId = getCurrentUser().id;
+const currentUser = getCurrentUser();
 const [ skillTable, setSkillTable ] = useState([]);
 const [ displaySkillUpdate, setDisplaySkillUpdate ] = useState(false);
 const [ error,setError ] = useState(null);
 const [ success,setSuccess ] = useState(null);
+const [invalidJwt, setInvalidJwt] = useState(false);
 const navigate = useNavigate()
 //udapte declaration part
 const [ proSkill,setProSkill ] = useState(skillData);
@@ -32,15 +33,25 @@ const box = useRef()
 //phone numbers display
 useEffect(()=>{
     getsKills()
-},[])
+},[]);
+
+//jwt invalid logout handling
+const logout = invalidJwt && <InvalidJwt/>
 
 const getsKills = () =>{
-    axiosGet('skill',currentUserId)
+    axiosGet('skill',currentUser.id)
     .then(response=>{
         setSkillTable(response.data)
     })
     .catch(error=>{
-        setError(error.message)
+        if (error.response.data.message == 'Invalid JWT token') {
+            setInvalidJwt(true)
+            setTimeout(() => {  
+                props.handleCloseWindow()
+            }, 2000);
+        } else { 
+            setError(error.response.data.message);
+        }
     })
 }
 
@@ -56,8 +67,15 @@ const handleDelete = e => {
             setSuccess(response.data)
         })
         .catch(error=>{
-            setError(error.message)
             setSuccess(null)
+            if (error.response.data.message == 'Invalid JWT token') {
+            setInvalidJwt(true)
+            setTimeout(() => {  
+                props.handleCloseWindow()
+            }, 2000);
+            } else { 
+            setError(error.response.data.message);
+           }
         })
     }
 }
@@ -72,7 +90,7 @@ const handleUpdate = e => {
     setProSkill({
         id : phoneToUpdate.id,
         skill : phoneToUpdate.skill,
-        userId : currentUserId
+        userId : currentUser.id
     })
     setDisplaySkillUpdate(true);
 }
@@ -81,7 +99,7 @@ const handleUpdate = e => {
 const handleChange = e =>{
     setProSkill({...proSkill,
         skill : e.target.value,
-        userId : currentUserId  
+        userId : currentUser.id  
     })
 
 }
@@ -101,7 +119,15 @@ const handleSubmit = e => {
         }, 1500);
     })
     .catch((error) => {
-        setError(error.message);
+        setSuccess(null)
+        if (error.response.data.message == 'Invalid JWT token') {
+            setInvalidJwt(true)
+            setTimeout(() => {  
+                props.handleCloseWindow()
+            }, 2000);
+        } else { 
+            setError(error.response.data.message);
+        }
     });
 }
 
@@ -143,6 +169,7 @@ const displayBlock = displaySkillUpdate && (
 
   return (
     <div className='align-center margin-auto'>
+        {logout}
         {successMsg}
         {errorMsg}
         <button  onClick={props.handleCloseBtn} className='btnAddData float-right'>Fermer</button>

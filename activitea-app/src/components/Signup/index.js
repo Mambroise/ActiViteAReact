@@ -1,6 +1,6 @@
 import React,{ useState,useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
-import { axiosPost } from '../CommunFunctions/axiosFunction'
+import { axiosPostLogAndSign } from '../CommunFunctions/axiosFunction'
 import { emailValidation, passwordValidation } from '../Validation';
 
 
@@ -97,17 +97,17 @@ function Signup() {
     const handleSubmit =e=> {
         e.preventDefault()
         if (accepted) {     
-            axiosPost("register", signup)
+            axiosPostLogAndSign("register", signup)
             .then(response =>{
                 setSignup(data)
                 setError(null)
-                setSuccess("Bravo! vous avez bien été enrergistré(e)")
+                setSuccess(response.data)
                 setTimeout(() => {
                 navigate("/login")
                 }, 2000);
             })
             .catch(error=>{
-                setError(error.message)
+                setError(error.response.data.message)
                 setSignup(data)
             })
         } else {

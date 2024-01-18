@@ -3,7 +3,7 @@ import { axiosPost } from '../CommunFunctions/axiosFunction'
 import getCurrentUser from '../Login/getCurrentUser'
 import { phoneValidation } from '../Validation'
 
-function RegisterPhone() {
+function RegisterPhone(props) {
 
     const proPhoneData = {
         phone : '',
@@ -44,7 +44,6 @@ function RegisterPhone() {
     }
     
     const handleSubmit =e=>{
-        console.log(phone);
         e.preventDefault();
         axiosPost("prophone", proPhone)
         .then((response) => {
@@ -55,8 +54,12 @@ function RegisterPhone() {
             box2.current.classList.add('blurry')
         })
         .catch((error) => {
-            setError(error.message);
-            setProPhone(proPhoneData);
+            if (error.response.data.message == 'Invalid JWT token') {
+                props.handleVisible()
+              } else { 
+                  setError(error.response.data.message);
+                  setProPhone(proPhoneData);
+              }
         });
     }
     

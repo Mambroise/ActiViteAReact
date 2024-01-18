@@ -6,6 +6,7 @@ import editIcon from '../../../image/editIcon.png'
 import deleteIcon from '../../../image/deleteIcon.png'
 import { useNavigate } from 'react-router-dom'
 import { dateValidation } from '../../Validation'
+import InvalidJwt from '../../CommunFunctions/invalidJwt'
 
 
 function MyCursus(props) {
@@ -24,7 +25,8 @@ const [ cursusTable, setCursusTable ] = useState([]);
 const [ displayCursusUpdate, setDisplayCursusUpdate ] = useState(false);
 const [ error,setError ] = useState(null);
 const [ success,setSuccess ] = useState(null);
-const [ validation,setValidation ] = useState(false)
+const [ validation,setValidation ] = useState(false);
+const [invalidJwt, setInvalidJwt] = useState(false);
 const navigate = useNavigate()
 //udapte declaration part
 const [ cursus,setCursus ] = useState(cursusData);
@@ -38,13 +40,24 @@ useEffect(()=>{
  getCursus()
 },[])
 
+//jwt invalid logout handling
+const logout = invalidJwt && <InvalidJwt/>
+
 const getCursus = () =>{
     axiosGet('cursus',currentUserId)
     .then(response=>{
         setCursusTable(response.data)
     })
     .catch(error=>{
-        setError(error.message)
+        if (error.response.data.message == 'Invalid JWT token') {
+            setInvalidJwt(true)
+            setTimeout(() => {  
+                props.handleCloseWindow()
+                window.location.reload();
+            }, 500);
+        } else { 
+            setError(error.message)
+        }
     })
 }
 
@@ -60,8 +73,16 @@ const handleDelete = e => {
             setSuccess(response.data)
         })
         .catch(error=>{
-            setError(error.message)
-            setSuccess(null)
+            if (error.response.data.message == 'Invalid JWT token') {
+                setInvalidJwt(true)
+                setTimeout(() => {  
+                    props.handleCloseWindow()
+                    window.location.reload();
+                }, 500);
+            } else {   
+                setError(error.message)
+                setSuccess(null)
+            }
         })
     }
 }
@@ -124,7 +145,15 @@ const handleSubmit = e => {
         }, 1500);
     })
     .catch((error) => {
-        setError(error.message);
+        if (error.response.data.message == 'Invalid JWT token') {
+            setInvalidJwt(true)
+            setTimeout(() => {  
+                props.handleCloseWindow()
+                window.location.reload();
+            }, 500);
+        } else { 
+            setError(error.message);
+        }
     });
 }
 
@@ -180,6 +209,7 @@ const displayBlock = displayCursusUpdate && (
 
   return (
     <div className='align-center margin-auto'>
+        {logout}
         {successMsg}
         {errorMsg}
         <button  onClick={props.handleCloseBtn} className='btnAddData float-right'>Fermer</button>

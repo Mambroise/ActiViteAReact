@@ -5,6 +5,7 @@ import ifNoData from '../../CommunFunctions/ifNoDataFunction'
 import editIcon from '../../../image/editIcon.png'
 import deleteIcon from '../../../image/deleteIcon.png'
 import { useNavigate } from 'react-router-dom'
+import InvalidJwt from '../../CommunFunctions/invalidJwt'
 
 
 function MyAddresses(props) {
@@ -24,6 +25,7 @@ const [ addressTable, setAddressTable ] = useState([]);
 const [ displayAddressUpdate, setDisplayAddressUpdate ] = useState(false);
 const [ error,setError ] = useState(null);
 const [ success,setSuccess ] = useState(null);
+const [invalidJwt, setInvalidJwt] = useState(false);
 const navigate = useNavigate()
 //udapte declaration part
 const [ address,setAddress ] = useState(addressData);
@@ -37,13 +39,21 @@ useEffect(()=>{
  getAddresses()
 },[])
 
+//jwt invalid logout handling
+const logout = invalidJwt && <InvalidJwt/>
+
 const getAddresses = () =>{
     axiosGet('address',currentUserId)
     .then(response=>{
         setAddressTable(response.data)
     })
     .catch(error=>{
-        setError(error.message)
+    if (error.response.data.message == 'Invalid JWT token') {
+      setInvalidJwt(true) 
+    } else {
+      console.log(error.message);
+      setError(error.message)
+    }
     })
 }
 
@@ -59,8 +69,13 @@ const handleDelete = e => {
             setSuccess(response.data)
         })
         .catch(error=>{
+        if (error.response.data.message == 'Invalid JWT token') {
+            setInvalidJwt(true) 
+        } else {
+            console.log(error.message);
             setError(error.message)
             setSuccess(null)
+        }
         })
     }
 }
@@ -108,7 +123,12 @@ const handleSubmit = e => {
         }, 1500);
     })
     .catch((error) => {
+    if (error.response.data.message == 'Invalid JWT token') {
+        setInvalidJwt(true) 
+    } else {
+        console.log(error.message);
         setError(error.message);
+    }
     });
 }
 
@@ -170,6 +190,7 @@ const displayBlock = displayAddressUpdate && (
 
   return (
     <div className='align-center margin-auto'>
+        {logout}
         {successMsg}
         {errorMsg}
         <button  onClick={props.handleCloseBtn} className='btnAddData float-right'>Fermer</button>

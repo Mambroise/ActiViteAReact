@@ -5,6 +5,7 @@ import ifNoData from '../../CommunFunctions/ifNoDataFunction'
 import editIcon from '../../../image/editIcon.png'
 import deleteIcon from '../../../image/deleteIcon.png'
 import { useNavigate } from 'react-router-dom'
+import InvalidJwt from '../../CommunFunctions/invalidJwt'
 
 
 function MyLifeExp(props) {
@@ -16,11 +17,12 @@ function MyLifeExp(props) {
        }
 
 
-const currentUserId = getCurrentUser().id;
+const currentUser = getCurrentUser();
 const [ lifeExpTable, setLifeExpTable ] = useState([]);
 const [ displayLifeExpUpdate, setDisplayLifeExpUpdate ] = useState(false);
 const [ error,setError ] = useState(null);
 const [ success,setSuccess ] = useState(null);
+const [invalidJwt, setInvalidJwt] = useState(false);
 const navigate = useNavigate()
 //udapte declaration part
 const [ lifeExp,setLifeExp ] = useState(lifeExpData);
@@ -34,13 +36,23 @@ useEffect(()=>{
     getLifExp()
 },[])
 
+//jwt invalid logout handling
+const logout = invalidJwt && <InvalidJwt/>
+
 const getLifExp = () =>{
-    axiosGet('lifeexp',currentUserId)
+    axiosGet('lifeexp',currentUser.id)
     .then(response=>{
         setLifeExpTable(response.data)
     })
     .catch(error=>{
-        setError(error.message)
+        if (error.response.data.message == 'Invalid JWT token') {
+            setInvalidJwt(true)
+            setTimeout(() => {  
+                props.handleCloseWindow()
+            }, 2000);
+            } else { 
+            setError(error.response.data.message);
+           }
     })
 }
 
@@ -56,8 +68,15 @@ const handleDelete = e => {
             setSuccess(response.data)
         })
         .catch(error=>{
-            setError(error.message)
             setSuccess(null)
+            if (error.response.data.message == 'Invalid JWT token') {
+            setInvalidJwt(true)
+            setTimeout(() => {  
+                props.handleCloseWindow()
+            }, 2000);
+            } else { 
+            setError(error.response.data.message);
+           }
         })
     }
 }
@@ -68,11 +87,10 @@ const handleUpdate = e => {
     setSuccess(null)
     const phoneIdToUpdate = e.target.id;
     const phoneToUpdate = lifeExpTable.find((lifeExp) => lifeExp.id == phoneIdToUpdate);
-
     setLifeExp({
         id : phoneToUpdate.id,
         content : phoneToUpdate.content,
-        userId : currentUserId
+        userId : currentUser.id
     })
     setDisplayLifeExpUpdate(true);
 }
@@ -81,7 +99,7 @@ const handleUpdate = e => {
 const handleChange = e =>{
     setLifeExp({...lifeExp,
         content : e.target.value,
-        userId : currentUserId  
+        userId : currentUser.id  
     })
 
 }
@@ -101,7 +119,15 @@ const handleSubmit = e => {
         }, 1500);
     })
     .catch((error) => {
-        setError(error.message);
+        setSuccess(null)
+        if (error.response.data.message == 'Invalid JWT token') {
+        setInvalidJwt(true)
+        setTimeout(() => {  
+            props.handleCloseWindow()
+        }, 2000);
+        } else { 
+        setError(error.response.data.message);
+       }
     });
 }
 
@@ -143,6 +169,7 @@ const displayBlock = displayLifeExpUpdate && (
 
   return (
     <div className='align-center margin-auto'>
+        {logout}
         {successMsg}
         {errorMsg}
         <button  onClick={props.handleCloseBtn} className='btnAddData float-right'>Fermer</button>

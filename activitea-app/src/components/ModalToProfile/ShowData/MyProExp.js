@@ -5,6 +5,7 @@ import ifNoData from '../../CommunFunctions/ifNoDataFunction'
 import editIcon from '../../../image/editIcon.png'
 import deleteIcon from '../../../image/deleteIcon.png'
 import { useNavigate } from 'react-router-dom'
+import InvalidJwt from '../../CommunFunctions/invalidJwt'
 
 
 function MyProExp(props) {
@@ -19,11 +20,12 @@ function MyProExp(props) {
        }
 
 
-const currentUserId = getCurrentUser().id;
+const currentUser = getCurrentUser();
 const [ proExpTable, setProExpTable ] = useState([]);
 const [ displayProExpUpdate, setDisplayProExpUpdate ] = useState(false);
 const [ error,setError ] = useState(null);
 const [ success,setSuccess ] = useState(null);
+const [invalidJwt, setInvalidJwt] = useState(false);
 const navigate = useNavigate()
 //udapte declaration part
 const [ proExp,setProExp ] = useState(proExpData);
@@ -37,14 +39,23 @@ useEffect(()=>{
     getProExp()
 },[])
 
+//jwt invalid logout handling
+const logout = invalidJwt && <InvalidJwt/>
+
 const getProExp = () =>{
-    axiosGet('proexp',currentUserId)
+    axiosGet('proexp',currentUser.id)
     .then(response=>{
         setProExpTable(response.data)
-        console.log(proExpTable);
     })
     .catch(error=>{
-        setError(error.message)
+        if (error.response.data.message == 'Invalid JWT token') {
+            setInvalidJwt(true)
+            setTimeout(() => {  
+                props.handleCloseWindow()
+            }, 2000);
+        } else { 
+            setError(error.response.data.message);
+        }
     })
 }
 
@@ -60,8 +71,15 @@ const handleDelete = e => {
             setSuccess(response.data)
         })
         .catch(error=>{
-            setError(error.message)
             setSuccess(null)
+            if (error.response.data.message == 'Invalid JWT token') {
+            setInvalidJwt(true)
+            setTimeout(() => {  
+                props.handleCloseWindow()
+            }, 2000);
+            } else { 
+            setError(error.response.data.message);
+           }
         })
     }
 }
@@ -78,7 +96,7 @@ const handleUpdate = e => {
         title : ToUpdate.title,
         startDate : ToUpdate.startDate,
         endDate : ToUpdate.endDate,
-        userId : currentUserId
+        userId : currentUser.id
     })
     setDisplayProExpUpdate(true);
 }
@@ -90,7 +108,7 @@ const handleChange = e =>{
         [e.target.id] : e.target.value,
         [e.target.id] : e.target.value,
         [e.target.id] : e.target.value,
-        userId : currentUserId 
+        userId : currentUser.id 
     })
 }
 
@@ -109,7 +127,15 @@ const handleSubmit = e => {
         }, 1500);
     })
     .catch((error) => {
-        setError(error.message);
+        setSuccess(null)
+        if (error.response.data.message == 'Invalid JWT token') {
+        setInvalidJwt(true)
+        setTimeout(() => {  
+            props.handleCloseWindow()
+        }, 2000);
+        } else { 
+        setError(error.response.data.message);
+       }
     });
 }
 
@@ -172,6 +198,7 @@ const displayBlock = displayProExpUpdate && (
 
   return (
     <div className='align-center margin-auto'>
+        {logout}
         {successMsg}
         {errorMsg}
         <button  onClick={props.handleCloseBtn} className='btnAddData float-right'>Fermer</button>

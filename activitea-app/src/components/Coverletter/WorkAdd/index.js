@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { axiosPost,axiosGet } from '../../CommunFunctions/axiosFunction';
 import getCurrentUser from '../../Login/getCurrentUser'
 import { useNavigate } from 'react-router-dom';
+import InvalidJwt from '../../CommunFunctions/invalidJwt';
 
 function WorkAd() {
 
@@ -20,13 +21,17 @@ function WorkAd() {
     const [ skill, setSkill ] = useState([])
     const [ error,setError ] = useState(null);
     const [ success,setSuccess ] = useState(null);
+    const [invalidJwt, setInvalidJwt] = useState(false);
     const currentUser = getCurrentUser();
     const navigate = useNavigate();
 
-     //Redirection if not logged in
+     //Redirection if not logged out
      useEffect(() => {
         currentUser === null && navigate("/")
       }, [currentUser])
+
+      //jwt invalid logout handling
+     const logout = invalidJwt && <InvalidJwt/>
 
       useEffect(() => {
         currentUser && getAllData()
@@ -42,6 +47,11 @@ function WorkAd() {
         setPhone(response.data[0].phone)
       })
       .catch(error=>{
+        if (error.response.data.message == 'Invalid JWT token') {
+          setInvalidJwt(true) 
+        } else {
+          console.log(error.message);
+         }
         console.log("prophone ",error.message);
       })
       
@@ -155,6 +165,7 @@ function WorkAd() {
         <div className=''></div>
         <div className='slContainer signupFromContainer'>
             <h2>Copie/colle l'annonce de la société cible</h2>
+            {logout}
             {successMsg}
             {errorMsg}
             <form onSubmit={handleSubmit} className='signupFromContainer' >

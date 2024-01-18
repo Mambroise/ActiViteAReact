@@ -4,6 +4,7 @@ import { axiosGpt, axiosPut } from '../../CommunFunctions/axiosFunction';
 import getCurrentUser, { getCoverletter, getUserAddress, getUserCursus, getUserLanguage, getUserLifeExp, getUserPhone, getUserProExp, getUserSkill } from '../../Login/getCurrentUser'
 import { useNavigate } from 'react-router-dom';
 import { pdfjs } from 'react-pdf';
+import InvalidJwt from '../../CommunFunctions/invalidJwt';
 
 // Enable worker for PDF.js
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
@@ -23,7 +24,9 @@ function GeneratedCoverLetter() {
     const [ success,setSuccess ] = useState(null);
     const [ outputText, setOutputText ] = useState('');
     const [ displayDownloadBtn, setDisplayDownloadBtn ] = useState(false);
-
+    const [invalidJwt, setInvalidJwt] = useState(false);
+   
+   
     //get all user data from locale storage
     const currentUser = getCurrentUser();
     const navigate = useNavigate()
@@ -44,6 +47,8 @@ function GeneratedCoverLetter() {
       currentUser === null && navigate("/")
     }, [currentUser])
     
+     //jwt invalid logout handling
+     const logout = invalidJwt && <InvalidJwt/>
 
     //useEffect to display the coverletter once loaded
     useEffect(() => {
@@ -102,8 +107,11 @@ function GeneratedCoverLetter() {
           setOutputText(response.data)
         })
         .catch(error=>{
-          console.error('Error:', error);
-          console.log(error.message);
+          if (error.response.data.message == 'Invalid JWT token') {
+            setInvalidJwt(true) 
+          } else {
+            console.log(error.message);
+           }
         })
     }
   
@@ -121,7 +129,6 @@ function GeneratedCoverLetter() {
             work_ad : workAd,
             userId : currentUser.id
           })
-          console.log("ID",coverId);
         axiosPut("coverletter",coverId, coverletter)
         .then(response => {
             setError(null)
@@ -134,7 +141,11 @@ function GeneratedCoverLetter() {
             // itemsToRemove.forEach(item => localStorage.removeItem(item));
         })
         .catch(error => {
-          console.log(error);
+            if (error.response.data.message == 'Invalid JWT token') {
+            setInvalidJwt(true) 
+          } else {
+            console.log(error.message);
+           }
         })
       }
       
@@ -187,7 +198,8 @@ function GeneratedCoverLetter() {
     <div className='main'>
         <div className='slContainer signupFromContainer'>
             <h2>Voici votre lettre de motivation</h2>
-                  {displayDownloadButton}
+            {logout}
+            {displayDownloadButton}
             {successMsg}
             {errorMsg}
             <form onSubmit={handleSubmit} className='signupFromContainer'>

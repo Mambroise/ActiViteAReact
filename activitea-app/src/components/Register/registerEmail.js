@@ -3,7 +3,7 @@ import { axiosPost } from '../CommunFunctions/axiosFunction'
 import getCurrentUser from '../Login/getCurrentUser'
 import { emailValidation } from '../Validation'
 
-function RegisterEmailPro() {
+function RegisterEmailPro(props) {
 
     const proEmailData = {
     proEmail : '',
@@ -56,8 +56,12 @@ const handleSubmit =e=>{
         box.current.classList.add('blurry')
     })
     .catch((error) => {
-        setError(error.message);
-        setEmail(proEmailData);
+        if (error.response.data.message == 'Invalid JWT token') {
+            props.handleVisible()
+          } else { 
+              setError(error.response.data.message);
+              setEmail(proEmailData);
+          }
     });
 }
 
