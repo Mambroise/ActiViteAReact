@@ -8,7 +8,9 @@ import Signup from '../Signup';
 import RegisterPart1 from '../Register/index1';
 import RegisterPart2 from '../Register/index2';
 import WorkAd from '../Coverletter/WorkAdd';
+import SelectData from '../Coverletter/SelectData/index'
 import GeneratedCoverLetter from '../Coverletter/GeneratedCoverLetter';
+import CoverLetterManagement from '../Coverletter/CoverletterManagement/index'
 
 const LazyModalToProfile = lazy(() => import('../ModalToProfile'));
 function App() { 
@@ -31,6 +33,8 @@ const handleDisplay = () =>{
           <Route path='/register2' element={<RegisterPart2/>}/>
           <Route path='/addworkad' element={<WorkAd/>}/>
           <Route path='/generatecoverletter' element={<GeneratedCoverLetter/>}/>
+          <Route path='/selectdata' element={<SelectData/>}/>
+          <Route path='/coverlettermanagement' element={<CoverLetterManagement/>}/>
         </Routes>
         {display && (
           <Suspense fallback={<div>Loading...</div>}>

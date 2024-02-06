@@ -36,6 +36,10 @@ const loggedInUser = currentUser === null ? (
                     <li className='connexionPosition align-center' onClick={props.handleDisplay} >
                         Mon profil
                     </li>
+                    <li className='connexionPosition align-center connect'
+                    >
+                        <Link  to='/coverlettermanagement'>Mes lettres</Link>
+                    </li>
                     <Logout />
                 </ul>
             )}

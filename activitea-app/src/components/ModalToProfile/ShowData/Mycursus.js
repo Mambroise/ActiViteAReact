@@ -80,7 +80,7 @@ const handleDelete = e => {
                     window.location.reload();
                 }, 500);
             } else {   
-                setError(error.message)
+                setError(error.response.data)
                 setSuccess(null)
             }
         })
@@ -152,7 +152,7 @@ const handleSubmit = e => {
                 window.location.reload();
             }, 500);
         } else { 
-            setError(error.message);
+            setError(error.response.data);
         }
     });
 }

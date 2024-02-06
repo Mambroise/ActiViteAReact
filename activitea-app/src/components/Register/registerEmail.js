@@ -59,7 +59,7 @@ const handleSubmit =e=>{
         if (error.response.data.message == 'Invalid JWT token') {
             props.handleVisible()
           } else { 
-              setError(error.response.data.message);
+              setError(error.response.data);
               setEmail(proEmailData);
           }
     });

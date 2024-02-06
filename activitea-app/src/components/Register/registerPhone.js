@@ -57,7 +57,8 @@ function RegisterPhone(props) {
             if (error.response.data.message == 'Invalid JWT token') {
                 props.handleVisible()
               } else { 
-                  setError(error.response.data.message);
+                  setError(error.response.data);
+                  console.log(error.response.data);
                   setProPhone(proPhoneData);
               }
         });

@@ -8,6 +8,9 @@ import InvalidJwt from '../CommunFunctions/invalidJwt';
 function Landing() {
   
   
+  const [contactData, setContactData] = useState({});
+  const {email,phone} = contactData;
+  const [address, setAddress] = useState('');
   const [hasData, setHasData] = useState(null);
   const [hasNoData, setHasNoData] = useState(null);
   const [isVisible, setIsVisible] = useState(false);
@@ -19,6 +22,7 @@ function Landing() {
   
   useEffect(() => {
     currentUser && isExistData();
+     userContact();
   }, []);
   
   //jwt invalid logout handling
@@ -52,6 +56,18 @@ function Landing() {
         }
       });
   }
+
+  //*css*/`
+    function userContact() {
+      axiosGet('contactdata', currentUser.id)
+      .then((response) => {
+          setContactData(response.data);
+          setAddress(response.data.address.number +" "+ response.data.address.street)
+      })
+      .catch((error) =>{
+        console.log(error);
+      })
+    }
 
   const handleClick = () => {
     setPopUp(false);
@@ -91,9 +107,20 @@ function Landing() {
       </div>
     );
 
+    const showData = currentUser ? 
+    <div className='proInfoUser'>
+      <div className='flex-around'>
+        <p>Téléphone : {phone}</p>
+        <p>Email : {email}</p>
+        <p>Adresse : {address} </p>
+      </div>
+    </div>
+    :
+    <div className='proInfoUser'>Inscrivez-vous et ajoutez quelques informations personnelles.</div>
+
   return (
     <main>
-      <div className='proInfoUser'>Inscrivez-vous et ajoutez quelques informations personnelles.</div>
+      {showData}
       {logout}
       <div className='landingBg'>
         <div className='landingLeftBox'>

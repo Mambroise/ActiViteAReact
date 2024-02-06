@@ -76,7 +76,7 @@ const handleDelete = e => {
                     props.handleCloseWindow()
                 }, 2000);
             } else { 
-                setError(error.response.data.message);
+                setError(error.response.data);
             }
         })
     }
@@ -143,7 +143,7 @@ const handleSubmit = e => {
                 props.handleCloseWindow()
             }, 2000);
         } else { 
-            setError(error.response.data.message);
+            setError(error.response.data);
         }
     });
 }

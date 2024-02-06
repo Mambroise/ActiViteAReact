@@ -52,7 +52,7 @@ function getEmails(){
                 props.handleCloseWindow()
             }, 2000);
         } else { 
-            setError(error.response.data.message);
+            setError(error.response.data);
         }
     })
 }
@@ -74,7 +74,7 @@ function handleDelete(e) {
                     props.handleCloseWindow()  
                 }, 200);
             } else { 
-                setError(error.response.data.message);
+                setError(error.response.data);
                 setSuccess(null)
             }
         })
@@ -141,7 +141,7 @@ const handleSubmit = e => {
                 props.handleCloseWindow()
             }, 200);
         } else { 
-            setError(error.response.data.message);
+            setError(error.response.data);
         }
     });
 }

@@ -70,7 +70,7 @@ function WorkAd() {
         setCursus(response.data)
       })
       .catch(error=>{
-        console.log("cursus ",error.message);
+        console.log("cursus", error.message);
       })
 
        // ===== get profesional experiences from user data =====//
@@ -135,7 +135,7 @@ function WorkAd() {
           axiosGet("last-coverletter", currentUser.id)
           .then(response=>{
               localStorage.setItem("coverletter", JSON.stringify([response.data.id,workAd]));
-              navigate("/generatecoverletter")
+              navigate("/selectdata")
           })
           .catch(error=>{
               console.log("coverletter ",error.message);
